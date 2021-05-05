@@ -1,7 +1,7 @@
 import './LandingStudent.css';
 
 import studentPhoto from '../../images/student_512h.jpg';
-import linkArrow from '../../images/link-arrow.svg';
+// import linkArrow from '../../images/link-arrow.svg';
 
 function LandingStudent() {
   return (

@@ -7,6 +7,13 @@ import LandingAbout from '../LandingAbout/LandingAbout';
 import LandingTechs from '../LandingTechs/LandingTechs';
 import LandingStudent from '../LandingStudent/LandingStudent';
 import Footer from '../Footer/Footer';
+import MovieSearch from '../MovieSearch/MovieSearch';
+import MoviesCard from '../MoviesCard/MoviesCard';
+import MoviesCardSection from '../MoviesCardList/MoviesCardSection';
+import EditProfile from '../EditProfile/EditProfile';
+import NotFound from '../NotFound/NotFound';
+import Registrate from '../Registrate/Registrate';
+import Login from '../Login/Login';
 
 function App() {
   return (
@@ -24,6 +31,18 @@ function App() {
       <LandingStudent />
 
       <Footer />
+
+      <MovieSearch />
+
+      <MoviesCardSection />
+
+      <EditProfile />
+
+      <NotFound />
+
+      <Registrate />
+
+      <Login />
     </div>
   );
 }

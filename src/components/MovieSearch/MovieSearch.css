@@ -1,0 +1,116 @@
+.movie-search {
+  box-sizing: border-box;
+  padding: 45px 70px;
+  width: 100%;
+  max-width: 1280px;
+}
+
+@media screen and (max-width: 900px) {
+  .movie-search {
+    padding: 45px 30px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .movie-search {
+    padding: 45px 14px;
+  }
+}
+
+.movie-search__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-search__fieldset {
+  padding: 12px 0;
+  margin: 0 0 32px;
+  border: none;
+  border-bottom: 1px solid #424242;
+}
+
+.movie-search__input {
+  margin: 0;
+  padding: 0;
+  background-color: inherit;
+  border-style: none;
+  vertical-align: middle;
+  width: calc(100% - 80px);
+  height: 34px;
+  font-size: 28px;
+  color: #fff;
+}
+
+.movie-search__submit {
+  height: 34px;
+  width: 80px;
+  background-image: url('../../images/search-button.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: inherit;
+  border-style: none;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+}
+
+.movie-search__checkbox-label {
+  color: #fff;
+  font-size: 13px;
+}
+
+@media screen and (max-width: 900px) {
+  .movie-search__checkbox-label {
+    align-self: flex-end;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .movie-search__checkbox-label {
+    align-self: center;
+  }
+}
+
+@media screen and (min-width: 901px) {
+  .movie-search__checkbox-label::after {
+    content: 'Короткометражки';
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .movie-search__checkbox-label::before {
+    content: 'Короткометражки';
+  }
+}
+
+.movie-search__checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip:rect(0 0 0 0);
+}
+
+.movie-search__checkbox-custom {
+  background-image: url('../../images/search-tumb-off.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 4px 38px 4px 0px;
+  margin-right: 14px;
+}
+
+@media screen and (max-width: 900px) {
+  .movie-search__checkbox-custom {
+    margin: 0 0 0 14px;
+  }
+}
+
+.movie-search__checkbox:focus + span {
+  /* border: 1px solid #fff;
+  border-radius: 10px; */
+  outline: 1px solid #fff;
+}
+
+.movie-search__checkbox:checked + span {
+  background-image: url('../../images/search-tumb-on.svg');
+}

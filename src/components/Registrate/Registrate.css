@@ -1,0 +1,104 @@
+.registrate {
+  box-sizing: border-box;
+  padding: 70px;
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+
+@media screen and (max-width: 700px) {
+  .registrate {
+    padding: 70px 14px;
+  }
+}
+
+.registrate__greeting {
+
+}
+
+.registrate__logo {
+  width: 38px;
+  height: 38px;
+  background-image: url('../../images/logo.svg');
+  background-repeat: no-repeat;
+}
+
+.registrate__greeting-text {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #fff;
+  margin: 40px 0;
+}
+
+.registrate__form {
+
+}
+
+.registrate__input-zone {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.registrate__input-label {
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 1.2;
+  color: #8b8b8b;
+}
+
+.registrate__input {
+  margin: 10px 0;
+  height: 45px;
+  max-width: 400px;
+  background-color: #2f2f2f;
+  border-style: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.registrate__input-error-message {
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 1.2;
+  color: #ee3465;
+}
+
+.registrate__submit-button {
+  margin: 70px 0 30px;
+  background-color: #4285f4;
+  border-style: none;
+  border-radius: 3px;
+  height: 45px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.registrate__signin-invite {
+  align-self: center;
+}
+
+.registrate__signin-text {
+  margin-right: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #8b8b8b;
+}
+
+.registrate__signin-link {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #4285f4;
+}
