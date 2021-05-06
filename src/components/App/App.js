@@ -1,15 +1,10 @@
 import './App.css';
 
 import Header from '../Header/Header';
-import Intro from '../Intro/Intro';
-import LandingNav from '../LandingNav/LandingNav';
-import LandingAbout from '../LandingAbout/LandingAbout';
-import LandingTechs from '../LandingTechs/LandingTechs';
-import LandingStudent from '../LandingStudent/LandingStudent';
+import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
 import Footer from '../Footer/Footer';
-import MovieSearch from '../MovieSearch/MovieSearch';
-import MoviesCard from '../MoviesCard/MoviesCard';
-import MoviesCardSection from '../MoviesCardList/MoviesCardSection';
 import EditProfile from '../EditProfile/EditProfile';
 import NotFound from '../NotFound/NotFound';
 import Registrate from '../Registrate/Registrate';
@@ -20,21 +15,11 @@ function App() {
     <div className="App">
       <Header />
 
-      <Intro />
+      <Main />
 
-      <LandingNav />
+      <Movies />
 
-      <LandingAbout />
-
-      <LandingTechs />
-
-      <LandingStudent />
-
-      <Footer />
-
-      <MovieSearch />
-
-      <MoviesCardSection />
+      <SavedMovies />
 
       <EditProfile />
 
@@ -43,6 +28,8 @@ function App() {
       <Registrate />
 
       <Login />
+
+      <Footer />
     </div>
   );
 }

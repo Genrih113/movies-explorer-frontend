@@ -1,4 +1,4 @@
-.intro {
+.landing-intro {
   box-sizing: border-box;
   display: flex;
   width: 100%;
@@ -13,19 +13,19 @@
 }
 
 @media screen and (max-width: 900px) {
-  .intro {
+  .landing-intro {
     padding: 0 30px;
   }
 }
 
 @media screen and (max-width: 700px) {
-  .intro {
+  .landing-intro {
     background-size: 248px;
     padding: 0 14px;
   }
 }
 
-.intro__title {
+.landing-intro__title {
   margin: auto;
   max-width: 730px;
   font-weight: 400;
@@ -36,7 +36,7 @@
 }
 
 @media screen and (max-width: 700px) {
-  .intro__title {
+  .landing-intro__title {
     font-size:  28px;
   }
 }
