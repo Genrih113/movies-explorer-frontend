@@ -1,3 +1,14 @@
+# Фронтенд проекта Movies-explorer
+
+Сделано далеко не все, но по правилам я должен (вроде) отправить на ревью, на 1 итерацию не позднее 6 мая.
+
+## Макет фронтенда
+
+https://www.figma.com/file/fZ5wruF7ByEkrWk07e3EDi/Diploma_Tolstov_w18
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

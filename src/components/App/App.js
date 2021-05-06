@@ -1,5 +1,7 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Route, Switch} from 'react-router-dom';
 import './App.css';
-
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -15,19 +17,37 @@ function App() {
     <div className="App">
       <Header />
 
-      <Main />
+      <Switch>
 
-      <Movies />
+        <Route exact path='/'>
+          <Main />
+        </Route>
 
-      <SavedMovies />
+        <Route path='/movies'>
+          <Movies />
+        </Route>
 
-      <EditProfile />
+        <Route path='/saved-movies'>
+          <SavedMovies />
+        </Route>
 
-      <NotFound />
+        <Route path='/profile'>
+          <EditProfile />
+        </Route>
 
-      <Registrate />
+        <Route path='*'>
+          <NotFound />
+        </Route>
 
-      <Login />
+        <Route path='/signup'>
+          <Registrate />
+        </Route>
+
+        <Route path='/signin'>
+          <Login />
+        </Route>
+
+      </Switch>
 
       <Footer />
     </div>
