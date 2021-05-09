@@ -16,10 +16,6 @@
   }
 }
 
-.login__greeting {
-
-}
-
 .login__logo-link {
   align-self: flex-start;
 }
@@ -43,10 +39,6 @@
   line-height: 1.2;
   color: #fff;
   margin: 40px 0;
-}
-
-.login__form {
-
 }
 
 .login__input-zone {

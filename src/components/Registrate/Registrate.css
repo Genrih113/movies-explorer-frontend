@@ -16,10 +16,6 @@
   }
 }
 
-.registrate__greeting {
-
-}
-
 .registrate__logo-link {
   align-self: flex-start;
 }
@@ -43,10 +39,6 @@
   line-height: 1.2;
   color: #fff;
   margin: 40px 0;
-}
-
-.registrate__form {
-
 }
 
 .registrate__input-zone {
