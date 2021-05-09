@@ -9,7 +9,9 @@ function Movies() {
 
       <Preloader />
 
-      <MoviesCardSection />
+      <MoviesCardSection
+        isSavedMoviesDirectory={false}
+      />
     </>
   );
 };

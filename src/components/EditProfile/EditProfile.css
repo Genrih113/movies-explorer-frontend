@@ -88,11 +88,14 @@
   color: #fff;
 }
 
-.edit-profile__logout-link {
+.edit-profile__logout-button {
   margin-top: 16px;
   font-size: 13px;
   line-height: 1.2;
   font-weight: 500;
   color: #EE3465;
-  text-decoration: none;
+  /* text-decoration: none; */
+  border: none;
+  background: none;
+  cursor: pointer;
 }

@@ -24,35 +24,35 @@ function LandingStudent() {
           </p>
           <ul className="landing-student__info-socials">
             <li className="landing-student__info-socials-item">
-              <a href="" className="landing-student__info-socials-link">Facebook</a>
+              <a href="https://www.facebook.com" target="_blank" className="landing-student__info-socials-link">Facebook</a>
             </li>
             <li className="landing-student__info-socials-item">
-              <a href="" className="landing-student__info-socials-link">Github</a>
+              <a href="https://github.com/Genrih113" target="_blank" className="landing-student__info-socials-link">Github</a>
             </li>
           </ul>
         </div>
-        <img src={studentPhoto} className="landing-student__info-photo"></img>
+        <img src={studentPhoto} className="landing-student__info-photo" alt="портрет студента"></img>
       </div>
       <div className="landing-student__portfolio">
         <h3 className="landing-student__portfolio-title">Портфолио</h3>
         <ul className="landing-student__portfolio-list">
 
           <li className="landing-student__portfolio-item">
-            <a href="" className="landing-student__portfolio-link">
+            <a href="https://genrih113.github.io/how-to-learn/" target="_blank" className="landing-student__portfolio-link">
               <span>Статичный сайт</span>
               <span>↗</span>
               {/* <img src={linkArrow} className="landing-student__portfolio-link-img"></img> */}
             </a>
           </li>
           <li className="landing-student__portfolio-item">
-            <a href="" className="landing-student__portfolio-link">
+            <a href="https://genrih113.github.io/russian-travel/" target="_blank" className="landing-student__portfolio-link">
               <span>Адаптивный сайт</span>
               <span>↗</span>
               {/* <img src={linkArrow} className="landing-student__portfolio-link-img"></img> */}
             </a>
           </li>
           <li className="landing-student__portfolio-item">
-            <a href="" className="landing-student__portfolio-link">
+            <a href="https://genrih113-mesto.nomoredomains.club" target="_blank" className="landing-student__portfolio-link">
               <span>Одностраничное приложение</span>
               <span>↗</span>
               {/* <img src={linkArrow} className="landing-student__portfolio-link-img"></img> */}

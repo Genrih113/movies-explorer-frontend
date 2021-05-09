@@ -52,11 +52,13 @@
   vertical-align: middle;
   margin: 0;
   padding: 0;
+  cursor: pointer;
 }
 
 .movie-search__checkbox-label {
   color: #fff;
   font-size: 13px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {

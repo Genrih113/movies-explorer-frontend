@@ -8,7 +8,15 @@ function MoviesCard(props) {
           <span className="movies-card__name">С легким паром!</span>
           <span className="movies-card__duration">1ч 45м</span>
         </div>
-        <button className="movies-card__favorite movies-card__favorite_true"></button>
+        {!props.isSavedMoviesDirectory && !props.isLiked &&
+        <button className="movies-card__button"></button>
+        }
+        {!props.isSavedMoviesDirectory && props.isLiked &&
+        <button className="movies-card__button movies-card__button_like"></button>
+        }
+        {props.isSavedMoviesDirectory &&
+        <button className="movies-card__button movies-card__button_delete"></button>
+        }
       </div>
       <div className="movies-card__poster-container">
         <img src={props.poster} alt="постер" className="movies-card__poster"></img>

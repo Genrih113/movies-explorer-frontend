@@ -29,7 +29,7 @@
   color: #8b8b8b;
 }
 
-.movies-card__favorite {
+.movies-card__button {
   margin: 14px;
   align-self: center;
   width: 30px;
@@ -39,13 +39,14 @@
   background-image: url('../../images/favorite-movie-false.svg');
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
-.movies-card__favorite_true {
+.movies-card__button_like {
   background-image: url('../../images/favorite-movie-true.svg');
 }
 
-.movies-card__favorite_delete {
+.movies-card__button_delete {
   background-image: url('../../images/favorite-movie-delete.svg');
 }
 

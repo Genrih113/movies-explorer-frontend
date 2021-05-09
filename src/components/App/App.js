@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {Route, Switch} from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
@@ -11,11 +11,39 @@ import EditProfile from '../EditProfile/EditProfile';
 import NotFound from '../NotFound/NotFound';
 import Registrate from '../Registrate/Registrate';
 import Login from '../Login/Login';
+import AsideMenu from '../AsideMenu/AsideMenu';
 
 function App() {
+
+  const [isAsideMenuOpen, setIsAsideMenuOpen] = React.useState(false);
+
+  function closeAsideMenu() {
+    setIsAsideMenuOpen(false)
+  }
+
+  function openAsideMenu() {
+    setIsAsideMenuOpen(true);
+  }
+
+
+  // const [isHeaderAndFooterVisible, setIsHeaderAndFooterVisible] = React.useState(true);
+
+  // function hideHeaderAndFooter() {
+  //   setIsHeaderAndFooterVisible(false)
+  // }
+
+  // function showHeaderAndFooter() {
+  //   setIsHeaderAndFooterVisible(true)
+  // }
+
+
   return (
     <div className="App">
-      <Header />
+
+      <Header
+        openAsideMenu = {openAsideMenu}
+        isLoggedIn = {true}
+      />
 
       <Switch>
 
@@ -35,10 +63,6 @@ function App() {
           <EditProfile />
         </Route>
 
-        <Route path='*'>
-          <NotFound />
-        </Route>
-
         <Route path='/signup'>
           <Registrate />
         </Route>
@@ -47,9 +71,18 @@ function App() {
           <Login />
         </Route>
 
+        <Route path='*'>
+          <NotFound />
+        </Route>
+
       </Switch>
 
       <Footer />
+
+      <AsideMenu
+        isAsideMenuOpen = {isAsideMenuOpen}
+        closeAsideMenu = {closeAsideMenu}
+      />
     </div>
   );
 }

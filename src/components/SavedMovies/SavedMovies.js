@@ -6,7 +6,9 @@ function SavedMovies() {
     <>
       <MovieSearch />
 
-      <MoviesCardSection />
+      <MoviesCardSection
+        isSavedMoviesDirectory={true}
+      />
     </>
   );
 };
