@@ -1,0 +1,11 @@
+/* * {
+  border: 1px solid red;
+} */
+
+.App {
+  display: flex;
+  flex-direction: column;
+  /* max-width: 1280px; */
+  align-items: center;
+  background-color: #202020;
+}

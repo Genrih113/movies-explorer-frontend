@@ -1,4 +1,16 @@
-# Getting Started with Create React App
+# Фронтенд проекта Movies-explorer
+
+Верстка интерфейса проекта.  
+Состояние "авторизованности" передается компоненту Header, находящегося внутри компонента App с помощью пропса isLoggedIn, от которого зависит отображаемое содержимое хедера.
+
+## Макет фронтенда
+
+https://www.figma.com/file/fZ5wruF7ByEkrWk07e3EDi/Diploma_Tolstov_w18
+
+
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
