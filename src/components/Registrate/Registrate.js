@@ -1,10 +1,27 @@
+import React from 'react';
 import {Link} from 'react-router-dom';
+import {useFormWithValidation} from '../../hooks/useFormWithValidation';
 import './Registrate.css';
 
 import logo from '../../images/logo.svg';
 
 function Registrate(props) {
   // props.hideHeaderAndFooter();
+
+  // const [values, setValues] = React.useState({});
+  // const [errors, setErrors] = React.useState({});
+  // const [isFormValid, setIsFormValid] = React.useState(false);
+
+  // function handleInputChange(evt) {
+  //   const input = evt.target;
+  //   const name = input.name;
+  //   const value = input.value;
+  //   setValues({...values, [name]: value});
+  //   setErrors({...errors, [name]: input.validationMessage});
+  //   setIsFormValid(input.closest('form').checkValidity());
+  // };
+
+  const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
 
   return(
     <section className="registrate">
@@ -16,20 +33,29 @@ function Registrate(props) {
       <form className="registrate__form" name="signupForm">
         <div className="registrate__input-zone">
           <label className="registrate__input-label">Имя</label>
-          <input className="registrate__input" name="userName" type="text" required></input>
-          <span className="registrate__input-error-message"></span>
+          <input onChange={handleInputChange} value={values.userName}
+            className="registrate__input" name="userName" type="text" required>
+          </input>
+          <span className="registrate__input-error-message">{errors.userName}</span>
         </div>
         <div className="registrate__input-zone">
           <label className="registrate__input-label">E-mail</label>
-          <input className="registrate__input" name="userEmail" type="email" required></input>
-          <span className="registrate__input-error-message"></span>
+          <input onChange={handleInputChange} value={values.userEmail}
+            className="registrate__input" name="userEmail" type="email" required>
+          </input>
+          <span className="registrate__input-error-message">{errors.userEmail && 'введите корректную почту, пожалуйста'}</span>
         </div>
         <div className="registrate__input-zone">
           <label className="registrate__input-label">Пароль</label>
-          <input className="registrate__input" name="userPassword" type="password" required></input>
-          <span className="registrate__input-error-message">Что-то пошло не так...</span>
+          <input onChange={handleInputChange} value={values.userPassword}
+            className="registrate__input" name="userPassword" type="password" required>
+          </input>
+          <span className="registrate__input-error-message">{errors.userPassword}</span>
         </div>
-        <button className="registrate__submit-button" type="submit" aria-label="Зарегистрироваться">Зарегистрироваться</button>
+        <button disabled={!isFormValid}
+          className={`registrate__submit-button ${!isFormValid && 'registrate__submit-button_disable'}`} type="submit" aria-label="Зарегистрироваться">
+            Зарегистрироваться
+        </button>
       </form>
       <span className="registrate__signin-invite">
         <span className="registrate__signin-text">
