@@ -1,6 +1,10 @@
+import React from 'react';
+
+
 import './EditProfile.css';
 
-function EditProfile() {
+function EditProfile(props) {
+
   return(
     <section className="edit-profile">
       <span className="edit-profile__greeting">Привет, Виталий!</span>
@@ -8,12 +12,12 @@ function EditProfile() {
         <div className="edit-profile__input-zone">
           <label className="edit-profile__input-label">Имя</label>
           <input className="edit-profile__input"
-            placeholder="Виталий" name="userName" type="text" required></input>
+            placeholder={props.user.name} name="userName" type="text" required></input>
         </div>
         <div className="edit-profile__input-zone">
           <label className="edit-profile__input-label">E&#8209;mail</label>
           <input className="edit-profile__input"
-            placeholder="pochta@yandex.ru" name="userEmail" type="email" required></input>
+            placeholder={props.user.email} name="userEmail" type="email" required></input>
         </div>
         <button className="edit-profile__edit-button"
           type="button" aria-label="Редактировать">

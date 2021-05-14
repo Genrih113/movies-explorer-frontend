@@ -89,6 +89,11 @@
   cursor: pointer;
 }
 
+.login__submit-button_disable {
+  background-color: #2f2f2f;
+  color: #8b8b8b;
+}
+
 .login__signin-invite {
   align-self: center;
 }

@@ -6,22 +6,13 @@ import './Registrate.css';
 import logo from '../../images/logo.svg';
 
 function Registrate(props) {
-  // props.hideHeaderAndFooter();
-
-  // const [values, setValues] = React.useState({});
-  // const [errors, setErrors] = React.useState({});
-  // const [isFormValid, setIsFormValid] = React.useState(false);
-
-  // function handleInputChange(evt) {
-  //   const input = evt.target;
-  //   const name = input.name;
-  //   const value = input.value;
-  //   setValues({...values, [name]: value});
-  //   setErrors({...errors, [name]: input.validationMessage});
-  //   setIsFormValid(input.closest('form').checkValidity());
-  // };
 
   const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.signUp(values.userName, values.userEmail, values.userPassword);
+  }
 
   return(
     <section className="registrate">
@@ -30,7 +21,7 @@ function Registrate(props) {
         <img src={logo} className="registrate__logo-img" alt="логотип"></img>
       </Link>
       <span className="registrate__greeting-text">Добро пожаловать!</span>
-      <form className="registrate__form" name="signupForm">
+      <form className="registrate__form" name="signupForm" onSubmit={handleSubmit}>
         <div className="registrate__input-zone">
           <label className="registrate__input-label">Имя</label>
           <input onChange={handleInputChange} value={values.userName}
