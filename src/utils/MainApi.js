@@ -65,6 +65,7 @@ class MainApi {
 
   getUserInfo(JWT) {
     return fetch(this._baseUrl + '/users/me', {
+      method: 'GET',
       headers: {
         authorization: `Bearer ${JWT}`
       }
@@ -87,7 +88,7 @@ class MainApi {
       },
       body: JSON.stringify({
         name: userInfoObj.name,
-        about: userInfoObj.about
+        email: userInfoObj.email
       })
     })
     .then((res) => {
@@ -101,6 +102,7 @@ class MainApi {
 
   getUserMovies(JWT) {
     return fetch(this._baseUrl + '/movies', {
+      method: 'GET',
       headers: {
         authorization: `Bearer ${JWT}`
       }

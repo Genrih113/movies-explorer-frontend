@@ -81,6 +81,20 @@ function App() {
   };
 
 
+  // изменение данных юзера
+  function patchUser({name, email}) {
+    mainApi.patchUserInfo(localStorage.getItem('token'), {name, email})
+      .then((res) => {
+        if (res.email) {
+          setUserInfo({name: res.name, email: res.email});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+
 
   const [user, setUser] = React.useState({});
   function setUserInfo(userInfo) {
@@ -151,6 +165,18 @@ function App() {
   };
 
 
+
+  function deleteMovie(movie) {
+    mainApi.deleteMovie(localStorage.getItem('token'), movie._id)
+      .then((res) => {
+        const newSavedMovies = savedMovies.filter((m) => {return (m._id !== movie._id)});
+        setSavedMoviesState(newSavedMovies);
+      })
+      .catch((err) => {console.log(err);})
+  }
+
+
+
   return (
     <div className="App">
 
@@ -176,6 +202,7 @@ function App() {
           {isLogged
             ? <SavedMovies
                 savedMovies={savedMovies}
+                deleteMovie={deleteMovie}
               />
             : <Redirect to='/' />
           }
@@ -183,7 +210,7 @@ function App() {
 
         <Route path='/profile'>
         {isLogged
-            ? <EditProfile user={user} logOut={logOut} />
+            ? <EditProfile user={user} logOut={logOut} patchUser={patchUser} />
             : <Redirect to='/' />
           }
         </Route>

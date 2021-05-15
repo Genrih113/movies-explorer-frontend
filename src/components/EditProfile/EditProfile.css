@@ -35,12 +35,12 @@
   justify-content: space-between;
   align-items: center;
   height: 46px;
-  border-bottom: 1px solid #424242;
+  /* border-bottom: 1px solid #424242; */
 }
 
-.edit-profile__input-zone:last-of-type {
+/* .edit-profile__input-zone:last-of-type {
   border: none;
-}
+} */
 
 .edit-profile__input-label {
   font-size: 11px;
@@ -60,6 +60,18 @@
   font-weight: 400;
   color: #fff;
   text-align: end;
+}
+
+.edit-profile__input-error-message {
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 1.2;
+  color: #ee3465;
+  border-bottom: 1px solid #424242;
+}
+
+.edit-profile__input-error-message:last-of-type {
+  border: none;
 }
 
 .edit-profile__edit-button {

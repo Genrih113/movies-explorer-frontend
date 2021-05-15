@@ -9,6 +9,7 @@ function SavedMovies(props) {
       <MoviesCardSection
         isSavedMoviesDirectory={true}
         movies={props.savedMovies}
+        deleteMovie={props.deleteMovie}
       />
     </>
   );
