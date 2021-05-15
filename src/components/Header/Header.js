@@ -17,7 +17,7 @@ function Header(props) {
       <Link to="/">
         <img src={logo} className="header__logo" alt="логотип"></img>
       </Link>
-      {pathname === '/' && !props.isLoggedIn &&
+      {pathname === '/' && !props.isLogged &&
         <ul className="header__menu header__profile-menu">
           <li className="header__menu-item header__navigation-menu-item">
             <Link to="/signup" className="header__menu-item-link">Регистрация</Link>
@@ -27,7 +27,7 @@ function Header(props) {
           </li>
         </ul>
       }
-      {props.isLoggedIn &&
+      {props.isLogged &&
       <>
         <ul className="header__menu header__navigation-menu">
           <li className="header__menu-item header__navigation-menu-item">

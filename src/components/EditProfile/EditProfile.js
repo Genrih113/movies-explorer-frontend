@@ -30,7 +30,7 @@ function EditProfile(props) {
         </button>
         }
       </form>
-      <button className="edit-profile__logout-button">Выйти из аккаунта</button>
+      <button onClick={props.logOut} className="edit-profile__logout-button">Выйти из аккаунта</button>
     </section>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import {Route, Switch, useHistory} from 'react-router-dom';
+import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -34,12 +34,43 @@ function App() {
   };
 
 
+
+  // стейт состояния залогиненности
+  const [isLogged, setIsLogged] = React.useState(Boolean(localStorage.getItem('isLogged')));
+  function logIn() {
+    setIsLogged(true);
+    localStorage.setItem('isLogged', true);
+  };
+  function logOut() {
+    setIsLogged(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('isLogged');
+    setUserInfo({});
+    history.push('/');
+  };
+
+
+  // const isLogged = React.useRef(false);
+  // function logIn() {
+  //   isLogged.current = true;
+  //   console.log(Boolean(localStorage.getItem('isLogged')));
+  //   localStorage.setItem('isLogged', true);
+  //   console.log(Boolean(localStorage.getItem('isLogged')));
+  // };
+  // function logOut() {
+  //   isLogged.current = false;
+  //   localStorage.removeItem('token');
+  //   setUserInfo({});
+  //   history.push('/');
+  // };
+
+
   // сигнин в сервис
   function signIn(email, password) {
     mainApi.signin(email, password)
     .then((res) => {
       localStorage.setItem('token', (res.token));
-      // logIn();
+      logIn();
       history.push('/movies');
     })
     .catch((err) => {
@@ -50,20 +81,65 @@ function App() {
   };
 
 
-  // получение профиля юзера- имени и почты
+
   const [user, setUser] = React.useState({});
   function setUserInfo(userInfo) {
     setUser(userInfo);
   };
+
+  // проверка валидности токена при его наличии и установка текущего пользователя
   React.useEffect(() => {
-    mainApi.getUserInfo('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdmNTI2Y2RiZjk4ZDM5OWM3YmM2OTkiLCJpYXQiOjE2MjA5MzcxMjIsImV4cCI6MTYyMTU0MTkyMn0.9z6cnvNsCVI9UNHD9COMzKLlfMvSv8_flib8IF3tWtc')
-      .then(res => {
-        setUserInfo({name: res.name, email: res.email});
+    if (Boolean(localStorage.getItem('token'))) {
+      console.log('отправка запроса проверки токена (и получение юзера)');
+      mainApi.checkToken(localStorage.getItem('token'))
+      .then((res) => {
+        if (res.email) {
+          setUserInfo({name: res.name, email: res.email});
+          logIn();
+        }
       })
-      .catch(err => console.log(err))
+      .catch((err) => {
+        console.log(err);
+        logOut();
+      })
+    }
   }, []);
   console.log(user);
+  // получение профиля юзера- имени и почты
+  // React.useEffect(() => {
+  //   if (!isLogged) {
+  //     return
+  //   }
+  //   console.log('запрос юзера');
+  //   mainApi.getUserInfo(localStorage.getItem('token'))
+  //     .then(res => {
+  //       setUserInfo({name: res.name, email: res.email});
+  //     })
+  //     .catch(err => console.log(err))
+  // }, [isLogged]);
 
+
+
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  function setSavedMoviesState(movies) {
+    setSavedMovies(movies);
+  };
+  function clearSavedMoviesState() {
+    setSavedMovies({});
+  };
+
+  // запрос карточек с сохраненными фильмами
+  React.useEffect(() => {
+    if (!isLogged) {
+      return;
+    }
+    console.log('отправка запроса сохраненных фильмов');
+    mainApi.getUserMovies(localStorage.getItem('token'))
+      .then((res) => {
+        setSavedMoviesState(res);
+      })
+      .catch((err) => {console.log(err);})
+  }, [])
 
   // управление сайдбар-меню
   const [isAsideMenuOpen, setIsAsideMenuOpen] = React.useState(false);
@@ -80,7 +156,7 @@ function App() {
 
       <Header
         openAsideMenu = {openAsideMenu}
-        isLoggedIn = {true}
+        isLogged = {isLogged}
       />
 
       <Switch>
@@ -90,15 +166,26 @@ function App() {
         </Route>
 
         <Route path='/movies'>
-          <Movies />
+          {isLogged
+            ? <Movies />
+            : <Redirect to='/' />
+          }
         </Route>
 
         <Route path='/saved-movies'>
-          <SavedMovies />
+          {isLogged
+            ? <SavedMovies
+                savedMovies={savedMovies}
+              />
+            : <Redirect to='/' />
+          }
         </Route>
 
         <Route path='/profile'>
-          <EditProfile user={user} />
+        {isLogged
+            ? <EditProfile user={user} logOut={logOut} />
+            : <Redirect to='/' />
+          }
         </Route>
 
         <Route path='/signup'>
