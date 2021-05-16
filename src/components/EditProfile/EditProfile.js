@@ -1,4 +1,5 @@
 import React from 'react';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 import {useFormWithValidation} from '../../hooks/useFormWithValidation';
 import './EditProfile.css';
@@ -6,12 +7,14 @@ import './EditProfile.css';
 function EditProfile(props) {
 
   // const [user, setUser] = React.useState({userName: props.user.name, userEmail: props.user.email});
-
-  const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
-
   // function checkUserChanges() {
 
   // }
+
+  const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
+
+  const user = React.useContext(CurrentUserContext);
+  console.log(user);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -25,13 +28,13 @@ function EditProfile(props) {
         <div className="edit-profile__input-zone">
           <label className="edit-profile__input-label">Имя</label>
           <input onChange={handleInputChange} value={values.userName} className="edit-profile__input"
-            placeholder={props.user.name} name="userName" type="text" required></input>
+            placeholder={user.name} name="userName" type="text" required></input>
         </div>
         <span className="edit-profile__input-error-message">{errors.userName}</span>
         <div className="edit-profile__input-zone">
           <label className="edit-profile__input-label">E&#8209;mail</label>
           <input onChange={handleInputChange} value={values.userEmail} className="edit-profile__input"
-            placeholder={props.user.email} name="userEmail" type="email" required></input>
+            placeholder={user.email} name="userEmail" type="email" required></input>
         </div>
         <span className="edit-profile__input-error-message">{errors.userEmail && 'введите корректную почту, пожалуйста'}</span>
         <button className="edit-profile__edit-button"

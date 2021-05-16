@@ -13,6 +13,8 @@ import Registrate from '../Registrate/Registrate';
 import Login from '../Login/Login';
 import AsideMenu from '../AsideMenu/AsideMenu';
 import mainApi from '../../utils/MainApi';
+import movieApi from '../../utils/MovieApi';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function App() {
 
@@ -176,65 +178,71 @@ function App() {
   }
 
 
+  //объект со всеми фильмами
+  const [movies, setMovies] = React.useState([]);
+  function setMoviesState(allMovies) {
+    setMovies(allMovies);
+  }
 
   return (
     <div className="App">
+      <CurrentUserContext.Provider value={user} >
+        <Header
+          openAsideMenu = {openAsideMenu}
+          isLogged = {isLogged}
+        />
 
-      <Header
-        openAsideMenu = {openAsideMenu}
-        isLogged = {isLogged}
-      />
+        <Switch>
 
-      <Switch>
+          <Route exact path='/'>
+            <Main />
+          </Route>
 
-        <Route exact path='/'>
-          <Main />
-        </Route>
+          <Route path='/movies'>
+            {isLogged
+              ? <Movies movies={movies} setMoviesState={setMoviesState} />
+              : <Redirect to='/' />
+            }
+          </Route>
 
-        <Route path='/movies'>
+          <Route path='/saved-movies'>
+            {isLogged
+              ? <SavedMovies
+                  savedMovies={savedMovies}
+                  deleteMovie={deleteMovie}
+                />
+              : <Redirect to='/' />
+            }
+          </Route>
+
+          <Route path='/profile'>
           {isLogged
-            ? <Movies />
-            : <Redirect to='/' />
-          }
-        </Route>
+              ? <EditProfile logOut={logOut} patchUser={patchUser} />
+              : <Redirect to='/' />
+            }
+          </Route>
 
-        <Route path='/saved-movies'>
-          {isLogged
-            ? <SavedMovies
-                savedMovies={savedMovies}
-                deleteMovie={deleteMovie}
-              />
-            : <Redirect to='/' />
-          }
-        </Route>
+          <Route path='/signup'>
+            <Registrate signUp={signUp} />
+          </Route>
 
-        <Route path='/profile'>
-        {isLogged
-            ? <EditProfile user={user} logOut={logOut} patchUser={patchUser} />
-            : <Redirect to='/' />
-          }
-        </Route>
+          <Route path='/signin'>
+            <Login signIn={signIn} />
+          </Route>
 
-        <Route path='/signup'>
-          <Registrate signUp={signUp} />
-        </Route>
+          <Route path='*'>
+            <NotFound />
+          </Route>
 
-        <Route path='/signin'>
-          <Login signIn={signIn} />
-        </Route>
+        </Switch>
 
-        <Route path='*'>
-          <NotFound />
-        </Route>
+        <Footer />
 
-      </Switch>
-
-      <Footer />
-
-      <AsideMenu
-        isAsideMenuOpen = {isAsideMenuOpen}
-        closeAsideMenu = {closeAsideMenu}
-      />
+        <AsideMenu
+          isAsideMenuOpen = {isAsideMenuOpen}
+          closeAsideMenu = {closeAsideMenu}
+        />
+      </CurrentUserContext.Provider>
     </div>
   );
 }

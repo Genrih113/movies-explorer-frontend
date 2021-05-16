@@ -13,7 +13,7 @@ function MoviesCardSection(props) {
       <ul className="movies-card-section__list">
         {props.movies.map((movie, i) => {
           return  <MoviesCard
-                    key={movie._id}
+                    key={props.isSavedMoviesDirectory ? movie._id : movie.id}
                     movie={movie}
                     deleteMovie={props.deleteMovie}
                     // poster={movie.image}
