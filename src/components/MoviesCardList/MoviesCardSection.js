@@ -1,12 +1,9 @@
 import './MoviesCardSection.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import mainApi from '../../utils/MainApi';
-
-import studentPhoto from '../../images/student_512h.jpg';
-import movie1 from '../../images/movie1.jpg';
-import movie2 from '../../images/movie2.jpg';
 
 function MoviesCardSection(props) {
+
+  let savedMovieId;
 
   return (
     <section className="movies-card-section">
@@ -18,8 +15,17 @@ function MoviesCardSection(props) {
                     deleteMovie={props.deleteMovie}
                     // poster={movie.image}
                     // name={movie.nameRU}
-                    isLiked={false}
+                    isLiked={
+                      props.isSavedMoviesDirectory
+                      ? false
+                      : props.savedMovies.some(function(savedMovie) {
+                        savedMovieId = savedMovie._id;
+                        return savedMovie.movieId === movie.id;
+                        })
+                    }
                     isSavedMoviesDirectory={props.isSavedMoviesDirectory}
+                    addMovie={props.addMovie}
+                    savedMovieId={savedMovieId}
                   />
           })
         }

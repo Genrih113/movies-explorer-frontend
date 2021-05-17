@@ -13,8 +13,14 @@ function MoviesCard(props) {
   const movie = (
     props.isSavedMoviesDirectory
     ? props.movie
-    : NormalizeMovie(props.movie, 'https://api.nomoreparties.co')
+    : NormalizeMovie(props.movie, props.savedMovieId, 'https://api.nomoreparties.co')
   );
+
+  function transformMinsToHoursWithMins(mins) {
+    let hours = Math.trunc(mins/60);
+    let minutes = mins % 60;
+    return hours + 'ч. ' + minutes + 'м.';
+  };
 
   return(
     <li>
@@ -22,13 +28,13 @@ function MoviesCard(props) {
         <div className="movies-card__info">
           <div className="movies-card__text">
             <span className="movies-card__name">{movie.nameRU}</span>
-            <span className="movies-card__duration">{movie.duration}</span>
+            <span className="movies-card__duration">{transformMinsToHoursWithMins(movie.duration)}</span>
           </div>
           {!props.isSavedMoviesDirectory && !props.isLiked &&
-          <button className="movies-card__button"></button>
+          <button onClick={() => {props.addMovie(movie)}} className="movies-card__button"></button>
           }
           {!props.isSavedMoviesDirectory && props.isLiked &&
-          <button className="movies-card__button movies-card__button_like"></button>
+          <button onClick={() => {props.deleteMovie(movie)}} className="movies-card__button movies-card__button_like"></button>
           }
           {props.isSavedMoviesDirectory &&
           <button onClick={() => {props.deleteMovie(props.movie)}}

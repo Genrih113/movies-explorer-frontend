@@ -13,31 +13,36 @@ import Registrate from '../Registrate/Registrate';
 import Login from '../Login/Login';
 import AsideMenu from '../AsideMenu/AsideMenu';
 import mainApi from '../../utils/MainApi';
-import movieApi from '../../utils/MovieApi';
+// import movieApi from '../../utils/MovieApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function App() {
 
   const history = useHistory();
 
-  // сигнап в сервис
+
+  // стейт с информацией о пользователе
+  const [user, setUser] = React.useState({});
+  function setUserInfo(userInfo) {
+    setUser(userInfo);
+  };
+
+
+
+  // регистрация в сервисе
   function signUp(name, email, password) {
     mainApi.signup(name, email, password)
       .then((res) => {
         console.log('регистрация удалась');
-        // switchIsSignSuccessfulOnTrue();
-        // switchIsTriedToSignOnTrue();
       })
       .catch((err) => {
         console.log('регистрация не удалась');
-        // switchIsSignFailedOnTrue();
-        // switchIsTriedToSignOnTrue();
       })
   };
 
 
 
-  // стейт состояния залогиненности
+  // стейт состояния залогиненности в сервис
   const [isLogged, setIsLogged] = React.useState(Boolean(localStorage.getItem('isLogged')));
   function logIn() {
     setIsLogged(true);
@@ -52,56 +57,6 @@ function App() {
   };
 
 
-  // const isLogged = React.useRef(false);
-  // function logIn() {
-  //   isLogged.current = true;
-  //   console.log(Boolean(localStorage.getItem('isLogged')));
-  //   localStorage.setItem('isLogged', true);
-  //   console.log(Boolean(localStorage.getItem('isLogged')));
-  // };
-  // function logOut() {
-  //   isLogged.current = false;
-  //   localStorage.removeItem('token');
-  //   setUserInfo({});
-  //   history.push('/');
-  // };
-
-
-  // сигнин в сервис
-  function signIn(email, password) {
-    mainApi.signin(email, password)
-    .then((res) => {
-      localStorage.setItem('token', (res.token));
-      logIn();
-      history.push('/movies');
-    })
-    .catch((err) => {
-      console.log(err);
-      // switchIsSignFailedOnTrue();
-      // switchIsTriedToSignOnTrue();
-    })
-  };
-
-
-  // изменение данных юзера
-  function patchUser({name, email}) {
-    mainApi.patchUserInfo(localStorage.getItem('token'), {name, email})
-      .then((res) => {
-        if (res.email) {
-          setUserInfo({name: res.name, email: res.email});
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
-
-
-
-  const [user, setUser] = React.useState({});
-  function setUserInfo(userInfo) {
-    setUser(userInfo);
-  };
 
   // проверка валидности токена при его наличии и установка текущего пользователя
   React.useEffect(() => {
@@ -121,6 +76,8 @@ function App() {
     }
   }, []);
   console.log(user);
+
+
   // получение профиля юзера- имени и почты
   // React.useEffect(() => {
   //   if (!isLogged) {
@@ -136,15 +93,47 @@ function App() {
 
 
 
+  // вход в сервис
+  function signIn(email, password) {
+    mainApi.signin(email, password)
+    .then((res) => {
+      localStorage.setItem('token', (res.token));
+      logIn();
+      history.push('/movies');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  };
+
+
+
+  // изменение данных юзера
+  function patchUser({name, email}) {
+    mainApi.patchUserInfo(localStorage.getItem('token'), {name, email})
+      .then((res) => {
+        if (res.email) {
+          setUserInfo({name: res.name, email: res.email});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+
+  // стейт с фильмами пользователя
   const [savedMovies, setSavedMovies] = React.useState([]);
   function setSavedMoviesState(movies) {
     setSavedMovies(movies);
   };
-  function clearSavedMoviesState() {
-    setSavedMovies({});
-  };
+  // function clearSavedMoviesState() {
+  //   setSavedMovies({});
+  // };
 
-  // запрос карточек с сохраненными фильмами
+
+
+  // запрос карточек с фильмами пользователя
   React.useEffect(() => {
     if (!isLogged) {
       return;
@@ -157,17 +146,27 @@ function App() {
       .catch((err) => {console.log(err);})
   }, [])
 
-  // управление сайдбар-меню
-  const [isAsideMenuOpen, setIsAsideMenuOpen] = React.useState(false);
-  function closeAsideMenu() {
-    setIsAsideMenuOpen(false)
+
+
+  // добавление фильма к числу сохраненных фильмов пользователя
+  function addMovie(movie) {
+    console.log(movie);
+    mainApi.postMovie(localStorage.getItem('token'), movie)
+      .then((res) => {
+        // const newSavedMovies = savedMovies;
+        // newSavedMovies.push(movie);
+        // setSavedMoviesState(newSavedMovies);
+        mainApi.getUserMovies(localStorage.getItem('token'))
+          .then((res) => {
+            setSavedMoviesState(res);
+          })
+      })
+      .catch((err) => {console.log(err)})
   };
-  function openAsideMenu() {
-    setIsAsideMenuOpen(true);
-  };
 
 
 
+  // удаление фильма из числа сохраненных фильмов пользователя
   function deleteMovie(movie) {
     mainApi.deleteMovie(localStorage.getItem('token'), movie._id)
       .then((res) => {
@@ -178,11 +177,25 @@ function App() {
   }
 
 
-  //объект со всеми фильмами
+
+  //стейт со всеми фильмами из BeatFilmsApi
   const [movies, setMovies] = React.useState([]);
   function setMoviesState(allMovies) {
     setMovies(allMovies);
   }
+
+
+
+  // управление сайдбар-меню
+  const [isAsideMenuOpen, setIsAsideMenuOpen] = React.useState(false);
+  function closeAsideMenu() {
+    setIsAsideMenuOpen(false)
+  };
+  function openAsideMenu() {
+    setIsAsideMenuOpen(true);
+  };
+
+
 
   return (
     <div className="App">
@@ -200,7 +213,14 @@ function App() {
 
           <Route path='/movies'>
             {isLogged
-              ? <Movies movies={movies} setMoviesState={setMoviesState} />
+              ? <Movies
+                  movies={movies}
+                  setMoviesState={setMoviesState}
+
+                  savedMovies={savedMovies}
+                  addMovie={addMovie}
+                  deleteMovie={deleteMovie}
+                />
               : <Redirect to='/' />
             }
           </Route>
@@ -216,7 +236,7 @@ function App() {
           </Route>
 
           <Route path='/profile'>
-          {isLogged
+            {isLogged
               ? <EditProfile logOut={logOut} patchUser={patchUser} />
               : <Redirect to='/' />
             }

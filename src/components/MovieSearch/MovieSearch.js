@@ -21,7 +21,7 @@ function MovieSearch(props) {
     <section className="movie-search">
       <form onSubmit={handleSubmit} className="movie-search__form">
         <fieldset className="movie-search__fieldset">
-          <input className="movie-search__input" placeholder="Фильм"></input>
+          <input onChange={props.handleSearchString} value={props.searchString} className="movie-search__input" placeholder="Фильм" required></input>
           <button type="submit" className="movie-search__submit"></button>
         </fieldset>
         <label htmlFor="short-movies" className="movie-search__checkbox-label">

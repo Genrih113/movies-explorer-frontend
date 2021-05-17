@@ -1,4 +1,4 @@
-export default function NormalizeMovie(unNormalMovie, baseUrlString) {
+export default function NormalizeMovie(unNormalMovie, savedMovieId, baseUrlString) {
   const normalMovie = {
     country: (
       unNormalMovie.country
@@ -40,7 +40,7 @@ export default function NormalizeMovie(unNormalMovie, baseUrlString) {
       ? `${unNormalMovie.nameRU}`
       : 'undefined'
     ),
-    // owner: 'undefined',
+    owner: 'undefined',
     thumbnail: (
       (unNormalMovie.image && unNormalMovie.image.formats && unNormalMovie.image.formats.thumbnail && unNormalMovie.image.formats.thumbnail.url)
       ? `${baseUrlString}${unNormalMovie.image.formats.thumbnail.url}`
@@ -56,6 +56,7 @@ export default function NormalizeMovie(unNormalMovie, baseUrlString) {
       ? `${unNormalMovie.year}`
       : 'undefined'
     ),
+    _id: savedMovieId,
   };
 
   return normalMovie;

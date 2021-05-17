@@ -116,16 +116,15 @@ class MainApi {
     })
   }
 
-  postMovie(JWT, movieInfoObject) {
+  postMovie(JWT, movie) {
+    console.log(movie);
     return fetch(this._baseUrl + '/movies', {
       method: 'POST',
       headers: {
         authorization: `Bearer ${JWT}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        movieInfoObject
-      })
+      body: JSON.stringify(movie)
     })
     .then((res) => {
       if (res.ok) {
