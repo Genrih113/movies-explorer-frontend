@@ -19,12 +19,25 @@
 
 .movies-card-section__list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); */
+  grid-template-columns: 1fr 1fr 1fr;
   column-gap: 24px;
   row-gap: 30px;
   list-style: none;
   margin: 0 0 80px;
   padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .movies-card-section__list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .movies-card-section__list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .movies-card-section__more-button {

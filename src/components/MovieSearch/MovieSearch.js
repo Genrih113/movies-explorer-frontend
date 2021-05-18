@@ -3,6 +3,19 @@ import './MovieSearch.css';
 
 function MovieSearch(props) {
 
+  function handleSearchString(evt) {
+    const string = evt.target.value;
+    props.setSearchStringState(string);
+  };
+
+
+  function handleSearchCheckbox(evt) {
+    const checkbox = evt.target.checked;
+    console.log(checkbox);
+    props.setIsShortState(checkbox);
+  };
+
+
   function handleSubmit(e) {
     e.preventDefault();
     console.log('отправка запроса всех фильмов');
@@ -12,6 +25,7 @@ function MovieSearch(props) {
         // надо пропустить фильмы через нормализатор
         console.log(res);
         props.setMoviesState(res);
+        props.setIsSearchRunStateOnTrue();
       })
       .catch((err) => {console.log(err)})
       .finally(() => {props.resetPreloaderOnState()})
@@ -21,11 +35,11 @@ function MovieSearch(props) {
     <section className="movie-search">
       <form onSubmit={handleSubmit} className="movie-search__form">
         <fieldset className="movie-search__fieldset">
-          <input onChange={props.handleSearchString} value={props.searchString} className="movie-search__input" placeholder="Фильм" required></input>
+          <input onChange={handleSearchString} value={props.searchString} className="movie-search__input" placeholder="Фильм" required></input>
           <button type="submit" className="movie-search__submit"></button>
         </fieldset>
         <label htmlFor="short-movies" className="movie-search__checkbox-label">
-          <input type="checkbox" id="short-movies" className="movie-search__checkbox"></input>
+          <input onClick={handleSearchCheckbox} type="checkbox" id="short-movies" className="movie-search__checkbox"></input>
           <span className="movie-search__checkbox-custom"></span>
           {/* Короткометражки */}
         </label>

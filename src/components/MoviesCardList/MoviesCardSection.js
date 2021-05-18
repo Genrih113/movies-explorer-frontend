@@ -1,14 +1,54 @@
+import React from 'react';
 import './MoviesCardSection.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardSection(props) {
 
+  // переменная нужна для возможности удаления (дизлайка) карточки,
+  // добавится в объект фильма в компоненте MoviesCard
   let savedMovieId;
+
+  // стейт для числа отображаемых карточек
+  const [numberOfDisplayedMovies, setNumberOfDisplayedMovies] = React.useState(
+    document.documentElement.clientWidth > 768
+    ? 12
+    : document.documentElement.clientWidth > 480
+    ? 8
+    : 5
+    );
+  function setNumberOfDisplayedMoviesState(number) {
+    setNumberOfDisplayedMovies(numberOfDisplayedMovies + number);
+  }
+
+
+  // стейт для числа добавляющихся карточек
+  const [numberOfAddedMovies, setNumberOfAddedMovies] = React.useState(
+    document.documentElement.clientWidth > 768
+    ? 3
+    : document.documentElement.clientWidth > 480
+    ? 2
+    : 1
+    );
+  function setNumberOfAddedMoviesState() {
+    setNumberOfAddedMovies(
+      document.documentElement.clientWidth > 768
+      ? 3
+      : document.documentElement.clientWidth > 480
+      ? 2
+      : 1
+      );
+  };
+
+
+  window.addEventListener('resize',function(){
+    setNumberOfAddedMoviesState(document.documentElement.clientWidth);
+  });
+
 
   return (
     <section className="movies-card-section">
       <ul className="movies-card-section__list">
-        {props.movies.map((movie, i) => {
+        {props.movies.slice(0, numberOfDisplayedMovies).map((movie, i) => {
           return  <MoviesCard
                     key={props.isSavedMoviesDirectory ? movie._id : movie.id}
                     movie={movie}
@@ -30,8 +70,11 @@ function MoviesCardSection(props) {
           })
         }
       </ul>
-      {!props.isSavedMoviesDirectory &&
-      <button className="movies-card-section__more-button">Ещё</button>
+      {!props.isSavedMoviesDirectory && numberOfDisplayedMovies < props.movies.length &&
+      <button onClick={() => {setNumberOfDisplayedMoviesState(numberOfAddedMovies)}}
+        className="movies-card-section__more-button">
+          Ещё
+      </button>
       }
     </section>
   );

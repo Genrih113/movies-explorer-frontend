@@ -178,11 +178,11 @@ function App() {
 
 
 
-  //стейт со всеми фильмами из BeatFilmsApi
-  const [movies, setMovies] = React.useState([]);
-  function setMoviesState(allMovies) {
-    setMovies(allMovies);
-  }
+  // перенесено в Movie стейт со всеми фильмами из BeatFilmsApi
+  // const [movies, setMovies] = React.useState([]);
+  // function setMoviesState(allMovies) {
+  //   setMovies(allMovies);
+  // }
 
 
 
@@ -214,8 +214,8 @@ function App() {
           <Route path='/movies'>
             {isLogged
               ? <Movies
-                  movies={movies}
-                  setMoviesState={setMoviesState}
+                  // movies={movies}
+                  // setMoviesState={setMoviesState}
 
                   savedMovies={savedMovies}
                   addMovie={addMovie}
