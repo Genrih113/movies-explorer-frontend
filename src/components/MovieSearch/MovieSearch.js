@@ -25,7 +25,7 @@ function MovieSearch(props) {
           <button type="submit" className="movie-search__submit"></button>
         </fieldset>
         <label htmlFor="short-movies" className="movie-search__checkbox-label">
-          <input onClick={handleSearchCheckbox} checked={props.isShort} type="checkbox" id="short-movies" className="movie-search__checkbox"></input>
+          <input onChange={handleSearchCheckbox} checked={props.isShort} type="checkbox" id="short-movies" className="movie-search__checkbox"></input>
           <span className="movie-search__checkbox-custom"></span>
           {/* Короткометражки */}
         </label>

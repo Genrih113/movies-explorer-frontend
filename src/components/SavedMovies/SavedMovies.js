@@ -1,14 +1,37 @@
+import React from 'react';
+
 import MovieSearch from '../MovieSearch/MovieSearch';
 import MoviesCardSection from '../MoviesCardList/MoviesCardSection';
 
 function SavedMovies(props) {
+
+  React.useEffect(() => {
+    props.setIsSearchRunState(false);
+  }, []);
+
+  // let movies;
+
+  // React.useEffect(() => {
+  //   movies = props.savedMovies;
+  // }, []);
+
+  // if (props.isSearchRun) {
+  //   movies = props.movies;
+  // }
+
   return(
     <>
-      <MovieSearch />
+      <MovieSearch
+        searchString={props.searchString}
+        isShort={props.isShort}
+        handleSearchString={props.handleSearchString}
+        handleSearchCheckbox={props.handleSearchCheckbox}
+        handleSubmit={props.handleSubmit}
+      />
 
       <MoviesCardSection
         isSavedMoviesDirectory={true}
-        movies={props.savedMovies}
+        movies={props.movies}
         deleteMovie={props.deleteMovie}
       />
     </>

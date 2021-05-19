@@ -228,29 +228,30 @@ function App() {
   }
 
 
+  // реализовано в handleSubmitInMovies
   // эффект в котором выполняется поиск соответствующих критериям фильмов
-  React.useEffect(() => {
-    if (!isSearchRun) {
-      return
-    }
+  // React.useEffect(() => {
+  //   if (!isSearchRun) {
+  //     return
+  //   }
 
-    let findedMovies = [];
+  //   let findedMovies = [];
 
-    findedMovies = movies.filter((movie) => {
-      return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
-    });
+  //   findedMovies = movies.filter((movie) => {
+  //     return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
+  //   });
 
-    if (isShort) {
-      findedMovies = findedMovies.filter((movie) => {
-        return movie.duration <= 40;
-      });
-    }
-    localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
-    setMoviesState(findedMovies);
-    setIsSearchRunState(false);
-    setSearchStringState('');
-    setIsShortState(false);
-  }, [isSearchRun]);
+  //   if (isShort) {
+  //     findedMovies = findedMovies.filter((movie) => {
+  //       return movie.duration <= 40;
+  //     });
+  //   }
+  //   localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
+  //   setMoviesState(findedMovies);
+  //   setIsSearchRunState(false);
+  //   setSearchStringState('');
+  //   setIsShortState(false);
+  // }, [isSearchRun]);
 
 
   // функция-хендл изменения поисковой строки
@@ -268,20 +269,94 @@ function App() {
 
 
   // функция-хендл сабмита формы поиска
-  function handleSubmit(evt) {
+  function handleSubmitInMovies(evt) {
     evt.preventDefault();
     console.log('отправка запроса всех фильмов');
     setPreloaderOnState();
     movieApi.getMovies()
       .then((res) => {
-        console.log(res);
-        setMoviesState(res);
-        setIsSearchRunState(true);
+        let findedMovies = [];
+
+        findedMovies = res.filter((movie) => {
+          return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
+        });
+
+        if (isShort) {
+          findedMovies = findedMovies.filter((movie) => {
+            return movie.duration <= 40;
+          });
+        }
+
+        localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
+        setMoviesState(findedMovies);
+        setSearchStringState('');
+        setIsShortState(false);
       })
       .catch((err) => {console.log(err)})
       .finally(() => {resetPreloaderOnState()})
   };
   // конец части логики из Movies
+
+
+  // логика поиска (отличия) в роуте saved-movies
+   const [findedMoviesFromSaved, setFindedMoviesFromSaved] = React.useState(savedMovies);
+
+   function setFindedMoviesFromSavedState(movies) {
+     setFindedMoviesFromSaved(movies);
+   };
+
+   React.useEffect(() => {
+    setFindedMoviesFromSavedState(savedMovies);
+   }, [savedMovies]);
+
+  // эффект в котором выполняется поиск сохраненных фильмах
+  // React.useEffect(() => {
+  //   if (!isSearchRun) {
+  //     return
+  //   }
+
+  //   let findedMovies = [];
+
+  //   findedMovies = savedMovies.filter((movie) => {
+  //     return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
+  //   });
+
+  //   if (isShort) {
+  //     findedMovies = findedMovies.filter((movie) => {
+  //       return movie.duration <= 40;
+  //     });
+  //   }
+  //   localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
+  //   setFindedMoviesFromSavedState(findedMovies);
+  //   setIsSearchRunState(false);
+  //   setSearchStringState('');
+  //   setIsShortState(false);
+  // }, [isSearchRun]);
+
+
+  // функция-хендл сабмита формы поиска в роуте saved-movies
+  function handleSubmitInSavedMovies(evt) {
+    evt.preventDefault();
+    // setIsSearchRunState(true);
+    let findedMovies = [];
+
+    findedMovies = savedMovies.filter((movie) => {
+      return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
+    });
+
+    if (isShort) {
+      findedMovies = findedMovies.filter((movie) => {
+        return movie.duration <= 40;
+      });
+    }
+    // localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
+    setFindedMoviesFromSavedState(findedMovies);
+    setIsSearchRunState(false);
+    setSearchStringState('');
+    setIsShortState(false);
+    setIsSearchRunState(true);
+  };
+  // конец логики поиска в роуте saved-movies
 
 
   // управление сайдбар-меню
@@ -319,10 +394,10 @@ function App() {
                   preloaderOn={preloaderOn}
                   searchString={searchString}
                   isShort={isShort}
-                  isSearchRun={isSearchRun}
+                  // isSearchRun={isSearchRun}
                   handleSearchString={handleSearchString}
                   handleSearchCheckbox={handleSearchCheckbox}
-                  handleSubmit={handleSubmit}
+                  handleSubmit={handleSubmitInMovies}
                   movies={movies}
                 />
               : <Redirect to='/' />
@@ -332,8 +407,17 @@ function App() {
           <Route path='/saved-movies'>
             {isLogged
               ? <SavedMovies
+                  movies={isSearchRun ? findedMoviesFromSaved : savedMovies}
                   savedMovies={savedMovies}
                   deleteMovie={deleteMovie}
+
+                  // isSearchRun={isSearchRun}
+                  setIsSearchRunState={setIsSearchRunState}
+                  searchString={searchString}
+                  isShort={isShort}
+                  handleSearchString={handleSearchString}
+                  handleSearchCheckbox={handleSearchCheckbox}
+                  handleSubmit={handleSubmitInSavedMovies}
                 />
               : <Redirect to='/' />
             }
