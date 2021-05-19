@@ -33,7 +33,7 @@ function MoviesCardSection(props) {
         }
       </ul>
       {!props.isSavedMoviesDirectory && props.numberOfDisplayedMovies < props.movies.length &&
-      <button onClick={() => {props.setNumberOfDisplayedMoviesState(props.numberOfAddedMovies)}}
+      <button onClick={props.handleForMoreButton}
         className="movies-card-section__more-button">
           Ещё
       </button>

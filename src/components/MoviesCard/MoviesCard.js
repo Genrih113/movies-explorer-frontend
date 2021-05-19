@@ -42,7 +42,9 @@ function MoviesCard(props) {
           }
         </div>
         <div className="movies-card__poster-container">
+          <a href={movie.trailer} target="_blank" rel="noreferrer">
           <img src={movie.image} alt="постер" className="movies-card__poster"></img>
+          </a>
         </div>
       </div>
     </li>

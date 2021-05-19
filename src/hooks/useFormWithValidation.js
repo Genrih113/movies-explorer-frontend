@@ -14,5 +14,22 @@ export function useFormWithValidation(){
     setIsFormValid(input.closest('form').checkValidity());
   };
 
+  // // экспериментальная функция
+  // function handleValidationStatesReset() {
+  //   setValues({});
+  //   setErrors({});
+  //   setIsFormValid(false);
+  //   console.log('reset form');
+  // }
+
+  // // еще одна экспериментальная функция
+  // function setFormWithValidationStatesManualy(validatedFieldsObject) {
+  //   setValues(validatedFieldsObject);
+  // }
+
+  // React.useEffect(() => {
+  //   setFormWithValidationStatesManualy(validatedFieldsObject);
+  // }, []);
+
   return {values, errors, isFormValid, handleInputChange};
 }

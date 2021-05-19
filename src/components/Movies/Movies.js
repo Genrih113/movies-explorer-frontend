@@ -16,8 +16,19 @@ function Movies(props) {
   );
 
   function setNumberOfDisplayedMoviesState(number) {
-    setNumberOfDisplayedMovies(numberOfDisplayedMovies + number);
+    setNumberOfDisplayedMovies(number);
   }
+
+
+   React.useEffect(() => {
+    setNumberOfDisplayedMoviesState(
+      document.documentElement.clientWidth > 768
+      ? 12
+      : document.documentElement.clientWidth > 480
+      ? 8
+      : 5
+    );
+   }, [props.movies]);
 
 
   // стейт для числа добавляющихся карточек
@@ -37,6 +48,12 @@ function Movies(props) {
       ? 2
       : 1
       );
+  };
+
+
+  // функция-хендл для кнопки прорисовки дополнительных результатов поиска
+  function handleForMoreButton() {
+    setNumberOfDisplayedMoviesState(numberOfDisplayedMovies + numberOfAddedMovies);
   };
 
 
@@ -68,6 +85,8 @@ function Movies(props) {
             numberOfDisplayedMovies={numberOfDisplayedMovies}
             numberOfAddedMovies={numberOfAddedMovies}
             setNumberOfDisplayedMoviesState={setNumberOfDisplayedMoviesState}
+            handleForMoreButton={handleForMoreButton}
+
           />
       }
     </>
