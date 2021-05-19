@@ -13,7 +13,7 @@ import Registrate from '../Registrate/Registrate';
 import Login from '../Login/Login';
 import AsideMenu from '../AsideMenu/AsideMenu';
 import mainApi from '../../utils/MainApi';
-// import movieApi from '../../utils/MovieApi';
+import movieApi from '../../utils/MovieApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function App() {
@@ -178,12 +178,110 @@ function App() {
 
 
 
-  // перенесено в Movie стейт со всеми фильмами из BeatFilmsApi
-  // const [movies, setMovies] = React.useState([]);
-  // function setMoviesState(allMovies) {
-  //   setMovies(allMovies);
-  // }
+  // эта часть логики перенесена из Movies для переиспользования в Saved-Movies
 
+  // стейт управления отображением прелоадера
+  const [preloaderOn, setPreloaderOn] = React.useState(false);
+
+  function setPreloaderOnState() {
+    setPreloaderOn(true);
+  };
+
+  function resetPreloaderOnState() {
+    setPreloaderOn(false);
+  };
+
+
+  // стейт значения поисковой строки
+  const [searchString, setSearchString] = React.useState('');
+
+  function setSearchStringState(string) {
+    setSearchString(string);
+  };
+
+
+  //стейт состояния чекбокса короткометражек
+  const [isShort, setIsShort] = React.useState(false);
+
+  function setIsShortState(bool) {
+    setIsShort(bool);
+  };
+
+
+  // стейт для запуска поиска фильмов из массива все фильмов
+  const [isSearchRun, setIsSearchRun] = React.useState(false);
+
+  function setIsSearchRunState(bool) {
+    setIsSearchRun(bool);
+  };
+
+  // function setIsSearchRunStateOnFalse() {
+  //   setIsSearchRun(false);
+  // };
+
+
+  // стейт со всеми фильмами из BeatFilmsApi
+  const [movies, setMovies] = React.useState(JSON.parse(localStorage.getItem('lastSearchedMovies')));
+
+  function setMoviesState(allMovies) {
+    setMovies(allMovies);
+  }
+
+
+  // эффект в котором выполняется поиск соответствующих критериям фильмов
+  React.useEffect(() => {
+    if (!isSearchRun) {
+      return
+    }
+
+    let findedMovies = [];
+
+    findedMovies = movies.filter((movie) => {
+      return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
+    });
+
+    if (isShort) {
+      findedMovies = findedMovies.filter((movie) => {
+        return movie.duration <= 40;
+      });
+    }
+    localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
+    setMoviesState(findedMovies);
+    setIsSearchRunState(false);
+    setSearchStringState('');
+    setIsShortState(false);
+  }, [isSearchRun]);
+
+
+  // функция-хендл изменения поисковой строки
+  function handleSearchString(evt) {
+    const string = evt.target.value;
+    setSearchStringState(string);
+  };
+
+  // функция-хендл отметки чекбокса формы поиска
+  function handleSearchCheckbox(evt) {
+    const checkbox = evt.target.checked;
+    console.log(checkbox);
+    setIsShortState(checkbox);
+  };
+
+
+  // функция-хендл сабмита формы поиска
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    console.log('отправка запроса всех фильмов');
+    setPreloaderOnState();
+    movieApi.getMovies()
+      .then((res) => {
+        console.log(res);
+        setMoviesState(res);
+        setIsSearchRunState(true);
+      })
+      .catch((err) => {console.log(err)})
+      .finally(() => {resetPreloaderOnState()})
+  };
+  // конец части логики из Movies
 
 
   // управление сайдбар-меню
@@ -214,12 +312,18 @@ function App() {
           <Route path='/movies'>
             {isLogged
               ? <Movies
-                  // movies={movies}
-                  // setMoviesState={setMoviesState}
-
                   savedMovies={savedMovies}
                   addMovie={addMovie}
                   deleteMovie={deleteMovie}
+
+                  preloaderOn={preloaderOn}
+                  searchString={searchString}
+                  isShort={isShort}
+                  isSearchRun={isSearchRun}
+                  handleSearchString={handleSearchString}
+                  handleSearchCheckbox={handleSearchCheckbox}
+                  handleSubmit={handleSubmit}
+                  movies={movies}
                 />
               : <Redirect to='/' />
             }

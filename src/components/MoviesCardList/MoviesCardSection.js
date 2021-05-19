@@ -8,43 +8,6 @@ function MoviesCardSection(props) {
   // добавится в объект фильма в компоненте MoviesCard
   let savedMovieId;
 
-  // // стейт для числа отображаемых карточек
-  // const [numberOfDisplayedMovies, setNumberOfDisplayedMovies] = React.useState(
-  //   document.documentElement.clientWidth > 768
-  //   ? 12
-  //   : document.documentElement.clientWidth > 480
-  //   ? 8
-  //   : 5
-  //   );
-  // function setNumberOfDisplayedMoviesState(number) {
-  //   setNumberOfDisplayedMovies(numberOfDisplayedMovies + number);
-  // }
-
-
-  // // стейт для числа добавляющихся карточек
-  // const [numberOfAddedMovies, setNumberOfAddedMovies] = React.useState(
-  //   document.documentElement.clientWidth > 768
-  //   ? 3
-  //   : document.documentElement.clientWidth > 480
-  //   ? 2
-  //   : 1
-  //   );
-
-  // function setNumberOfAddedMoviesState() {
-  //   setNumberOfAddedMovies(
-  //     document.documentElement.clientWidth > 768
-  //     ? 3
-  //     : document.documentElement.clientWidth > 480
-  //     ? 2
-  //     : 1
-  //     );
-  // };
-
-
-  // window.addEventListener('resize',function(){
-  //   setNumberOfAddedMoviesState(document.documentElement.clientWidth);
-  // });
-
 
   return (
     <section className="movies-card-section">
@@ -54,8 +17,6 @@ function MoviesCardSection(props) {
                     key={props.isSavedMoviesDirectory ? movie._id : movie.id}
                     movie={movie}
                     deleteMovie={props.deleteMovie}
-                    // poster={movie.image}
-                    // name={movie.nameRU}
                     isLiked={
                       props.isSavedMoviesDirectory
                       ? false
