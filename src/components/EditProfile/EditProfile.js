@@ -41,16 +41,16 @@ function EditProfile(props) {
             name="userEmail" type="email" required></input>
         </div>
         <span className="edit-profile__input-error-message">{errors.userEmail && 'введите корректную почту, пожалуйста'}</span>
-        <button className="edit-profile__edit-button"
+        <button disabled={!isFormValid} className={`edit-profile__edit-button ${!isFormValid && 'edit-profile__edit-button_disable'}`}
           type="submit" aria-label="Редактировать">
             Редактировать
         </button>
-        {false &&
+        {/* {false &&
         <button disabled={!isFormValid} className="edit-profile__submit-button"
           type="submit" aria-label="Сохранить">
             Сохранить
         </button>
-        }
+        } */}
       </form>
       <button onClick={props.logOut} className="edit-profile__logout-button">Выйти из аккаунта</button>
     </section>

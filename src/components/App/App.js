@@ -221,7 +221,7 @@ function App() {
 
 
   // стейт со всеми фильмами из BeatFilmsApi
-  const [movies, setMovies] = React.useState(JSON.parse(localStorage.getItem('lastSearchedMovies')));
+  const [movies, setMovies] = React.useState((JSON.parse(localStorage.getItem('lastSearchedMovies')) || []));
 
   function setMoviesState(allMovies) {
     setMovies(allMovies);

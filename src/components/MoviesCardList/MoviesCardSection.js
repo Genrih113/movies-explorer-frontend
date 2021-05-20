@@ -11,6 +11,7 @@ function MoviesCardSection(props) {
 
   return (
     <section className="movies-card-section">
+      {/* нужна проверка наличия результатов поиска, при не первой отрисовке */}
       <ul className="movies-card-section__list">
         {props.movies.slice(0, props.numberOfDisplayedMovies).map((movie, i) => {
           return  <MoviesCard

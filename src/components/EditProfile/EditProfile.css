@@ -95,6 +95,10 @@
   font-size: 13px;
   line-height: 1.2;
   font-weight: 400;
+  color: #3ddc84;
+}
+
+.edit-profile__edit-button_disable {
   color: #fff;
 }
 
