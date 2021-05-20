@@ -43,15 +43,23 @@ function App() {
 
 
   // стейт состояния залогиненности в сервис
-  const [isLogged, setIsLogged] = React.useState(Boolean(localStorage.getItem('isLogged')));
+  const [isLogged, setIsLogged] = React.useState(Boolean(localStorage.getItem('token')));
+  // const [isLogged, setIsLogged] = React.useState(
+  //   if (Boolean(localStorage.getItem('token'))) {
+  //     console.log('отправка запроса проверки токена при установке стейта логгед');
+  //     mainApi.checkToken(localStorage.getItem('token'))
+  //     .then((res) => {return true})
+  //     .catch((err) => {return false})
+  //   }
+  // );
   function logIn() {
     setIsLogged(true);
-    localStorage.setItem('isLogged', true);
+    // localStorage.setItem('isLogged', true);
   };
   function logOut() {
     setIsLogged(false);
     localStorage.removeItem('token');
-    localStorage.removeItem('isLogged');
+    // localStorage.removeItem('isLogged');
     setUserInfo({});
     history.push('/');
   };
@@ -144,7 +152,7 @@ function App() {
         setSavedMoviesState(res);
       })
       .catch((err) => {console.log(err);})
-  }, [])
+  }, [isLogged])
 
 
 
@@ -215,9 +223,6 @@ function App() {
     setIsSearchRun(bool);
   };
 
-  // function setIsSearchRunStateOnFalse() {
-  //   setIsSearchRun(false);
-  // };
 
 
   // стейт со всеми фильмами из BeatFilmsApi
@@ -226,6 +231,7 @@ function App() {
   function setMoviesState(allMovies) {
     setMovies(allMovies);
   }
+
 
 
   // реализовано в handleSubmitInMovies
@@ -254,11 +260,13 @@ function App() {
   // }, [isSearchRun]);
 
 
+
   // функция-хендл изменения поисковой строки
   function handleSearchString(evt) {
     const string = evt.target.value;
     setSearchStringState(string);
   };
+
 
   // функция-хендл отметки чекбокса формы поиска
   function handleSearchCheckbox(evt) {
@@ -276,17 +284,14 @@ function App() {
     movieApi.getMovies()
       .then((res) => {
         let findedMovies = [];
-
         findedMovies = res.filter((movie) => {
           return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
         });
-
         if (isShort) {
           findedMovies = findedMovies.filter((movie) => {
             return movie.duration <= 40;
           });
         }
-
         localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
         setMoviesState(findedMovies);
         setSearchStringState('');
@@ -298,12 +303,14 @@ function App() {
   // конец части логики из Movies
 
 
+
   // логика поиска (отличия) в роуте saved-movies
    const [findedMoviesFromSaved, setFindedMoviesFromSaved] = React.useState(savedMovies);
 
    function setFindedMoviesFromSavedState(movies) {
      setFindedMoviesFromSaved(movies);
    };
+
 
    React.useEffect(() => {
     setFindedMoviesFromSavedState(savedMovies);
@@ -339,11 +346,9 @@ function App() {
     evt.preventDefault();
     // setIsSearchRunState(true);
     let findedMovies = [];
-
     findedMovies = savedMovies.filter((movie) => {
       return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
     });
-
     if (isShort) {
       findedMovies = findedMovies.filter((movie) => {
         return movie.duration <= 40;
@@ -357,6 +362,7 @@ function App() {
     setIsSearchRunState(true);
   };
   // конец логики поиска в роуте saved-movies
+
 
 
   // управление сайдбар-меню
