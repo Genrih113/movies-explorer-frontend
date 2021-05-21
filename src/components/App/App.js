@@ -15,6 +15,9 @@ import AsideMenu from '../AsideMenu/AsideMenu';
 import mainApi from '../../utils/MainApi';
 import movieApi from '../../utils/MovieApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
+import ProtectedFromUnauthRoute from '../ProtectedFromUnauthRoute/ProtectedFromUnauthRoute';
+import ProtectedFromAuthRoute from '../ProtectedFromAuthRoute/ProtectedFromAuthRoute';
+
 
 function App() {
 
@@ -287,11 +290,11 @@ function App() {
         findedMovies = res.filter((movie) => {
           return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
         });
-        if (isShort) {
-          findedMovies = findedMovies.filter((movie) => {
-            return movie.duration <= 40;
-          });
-        }
+        // if (isShort) {
+        //   findedMovies = findedMovies.filter((movie) => {
+        //     return movie.duration <= 40;
+        //   });
+        // }
         localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
         setMoviesState(findedMovies);
         setSearchStringState('');
@@ -349,11 +352,11 @@ function App() {
     findedMovies = savedMovies.filter((movie) => {
       return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
     });
-    if (isShort) {
-      findedMovies = findedMovies.filter((movie) => {
-        return movie.duration <= 40;
-      });
-    }
+    // if (isShort) {
+    //   findedMovies = findedMovies.filter((movie) => {
+    //     return movie.duration <= 40;
+    //   });
+    // }
     // localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
     setFindedMoviesFromSavedState(findedMovies);
     setIsSearchRunState(false);
@@ -390,59 +393,56 @@ function App() {
             <Main />
           </Route>
 
-          <Route path='/movies'>
-            {isLogged
-              ? <Movies
-                  savedMovies={savedMovies}
-                  addMovie={addMovie}
-                  deleteMovie={deleteMovie}
+          <ProtectedFromUnauthRoute path='/movies'
+            component={Movies}
+            savedMovies={savedMovies}
+            addMovie={addMovie}
+            deleteMovie={deleteMovie}
+            isLogged={isLogged}
+            preloaderOn={preloaderOn}
+            searchString={searchString}
+            isShort={isShort}
+            // isSearchRun={isSearchRun}
+            handleSearchString={handleSearchString}
+            handleSearchCheckbox={handleSearchCheckbox}
+            handleSubmit={handleSubmitInMovies}
+            movies={movies}
+          />
 
-                  preloaderOn={preloaderOn}
-                  searchString={searchString}
-                  isShort={isShort}
-                  // isSearchRun={isSearchRun}
-                  handleSearchString={handleSearchString}
-                  handleSearchCheckbox={handleSearchCheckbox}
-                  handleSubmit={handleSubmitInMovies}
-                  movies={movies}
-                />
-              : <Redirect to='/' />
-            }
-          </Route>
+          <ProtectedFromUnauthRoute path='/saved-movies'
+            component={SavedMovies}
+            isLogged={isLogged}
+            movies={isSearchRun ? findedMoviesFromSaved : savedMovies}
+            savedMovies={savedMovies}
+            deleteMovie={deleteMovie}
 
-          <Route path='/saved-movies'>
-            {isLogged
-              ? <SavedMovies
-                  movies={isSearchRun ? findedMoviesFromSaved : savedMovies}
-                  savedMovies={savedMovies}
-                  deleteMovie={deleteMovie}
+            // isSearchRun={isSearchRun}
+            setIsSearchRunState={setIsSearchRunState}
+            searchString={searchString}
+            isShort={isShort}
+            handleSearchString={handleSearchString}
+            handleSearchCheckbox={handleSearchCheckbox}
+            handleSubmit={handleSubmitInSavedMovies}
+          />
 
-                  // isSearchRun={isSearchRun}
-                  setIsSearchRunState={setIsSearchRunState}
-                  searchString={searchString}
-                  isShort={isShort}
-                  handleSearchString={handleSearchString}
-                  handleSearchCheckbox={handleSearchCheckbox}
-                  handleSubmit={handleSubmitInSavedMovies}
-                />
-              : <Redirect to='/' />
-            }
-          </Route>
+          <ProtectedFromUnauthRoute path='/profile'
+            component={EditProfile}
+            isLogged={isLogged}
+            logOut={logOut}
+            patchUser={patchUser}
+          />
 
-          <Route path='/profile'>
-            {isLogged
-              ? <EditProfile logOut={logOut} patchUser={patchUser} />
-              : <Redirect to='/' />
-            }
-          </Route>
+          <ProtectedFromAuthRoute path='/signup'
+            component={Registrate}
+            signUp={signUp}
+            isLogged={isLogged}
+          />
 
-          <Route path='/signup'>
-            <Registrate signUp={signUp} />
-          </Route>
-
-          <Route path='/signin'>
-            <Login signIn={signIn} />
-          </Route>
+          <ProtectedFromAuthRoute path='/signin'
+            component={Login}
+            signIn={signIn}
+            isLogged={isLogged}
+          />
 
           <Route path='*'>
             <NotFound />
@@ -456,6 +456,7 @@ function App() {
           isAsideMenuOpen = {isAsideMenuOpen}
           closeAsideMenu = {closeAsideMenu}
         />
+
       </CurrentUserContext.Provider>
     </div>
   );
