@@ -298,7 +298,7 @@ function App() {
         localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
         setMoviesState(findedMovies);
         setSearchStringState('');
-        setIsShortState(false);
+        // setIsShortState(false);
       })
       .catch((err) => {console.log(err)})
       .finally(() => {resetPreloaderOnState()})
@@ -359,10 +359,10 @@ function App() {
     // }
     // localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
     setFindedMoviesFromSavedState(findedMovies);
-    setIsSearchRunState(false);
+    // setIsSearchRunState(false);
     setSearchStringState('');
-    setIsShortState(false);
-    setIsSearchRunState(true);
+    // setIsShortState(false);
+    // setIsSearchRunState(true);
   };
   // конец логики поиска в роуте saved-movies
 
@@ -393,7 +393,7 @@ function App() {
             <Main />
           </Route>
 
-          <ProtectedFromUnauthRoute path='/movies'
+          <ProtectedFromUnauthRoute exact path='/movies'
             component={Movies}
             savedMovies={savedMovies}
             addMovie={addMovie}
@@ -409,10 +409,11 @@ function App() {
             movies={movies}
           />
 
-          <ProtectedFromUnauthRoute path='/saved-movies'
+          <ProtectedFromUnauthRoute exact path='/saved-movies'
             component={SavedMovies}
             isLogged={isLogged}
-            movies={isSearchRun ? findedMoviesFromSaved : savedMovies}
+            // movies={isSearchRun ? findedMoviesFromSaved : savedMovies}
+            movies={findedMoviesFromSaved}
             savedMovies={savedMovies}
             deleteMovie={deleteMovie}
 
@@ -425,20 +426,20 @@ function App() {
             handleSubmit={handleSubmitInSavedMovies}
           />
 
-          <ProtectedFromUnauthRoute path='/profile'
+          <ProtectedFromUnauthRoute exact path='/profile'
             component={EditProfile}
             isLogged={isLogged}
             logOut={logOut}
             patchUser={patchUser}
           />
 
-          <ProtectedFromAuthRoute path='/signup'
+          <ProtectedFromAuthRoute exact path='/signup'
             component={Registrate}
             signUp={signUp}
             isLogged={isLogged}
           />
 
-          <ProtectedFromAuthRoute path='/signin'
+          <ProtectedFromAuthRoute exact path='/signin'
             component={Login}
             signIn={signIn}
             isLogged={isLogged}

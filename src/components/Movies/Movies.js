@@ -77,16 +77,14 @@ function Movies(props) {
         : <MoviesCardSection
             isSavedMoviesDirectory={false}
             movies={props.movies}
+            isShort={props.isShort}
             deleteMovie={props.deleteMovie}
-
             savedMovies={props.savedMovies}
             addMovie={props.addMovie}
-
             numberOfDisplayedMovies={numberOfDisplayedMovies}
             numberOfAddedMovies={numberOfAddedMovies}
             setNumberOfDisplayedMoviesState={setNumberOfDisplayedMoviesState}
             handleForMoreButton={handleForMoreButton}
-
           />
       }
     </>

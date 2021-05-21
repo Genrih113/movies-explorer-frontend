@@ -1,4 +1,3 @@
-// import movieApi from '../../utils/MovieApi';
 import './MovieSearch.css';
 
 function MovieSearch(props) {
@@ -21,13 +20,14 @@ function MovieSearch(props) {
     <section className="movie-search">
       <form onSubmit={handleSubmit} className="movie-search__form">
         <fieldset className="movie-search__fieldset">
-          <input onChange={handleSearchString} value={props.searchString} className="movie-search__input" placeholder="Фильм" required></input>
+          <input onChange={handleSearchString} value={props.searchString}
+            className="movie-search__input" placeholder="Фильм" required>
+          </input>
           <button type="submit" className="movie-search__submit"></button>
         </fieldset>
         <label htmlFor="short-movies" className="movie-search__checkbox-label">
           <input onChange={handleSearchCheckbox} checked={props.isShort} type="checkbox" id="short-movies" className="movie-search__checkbox"></input>
           <span className="movie-search__checkbox-custom"></span>
-          {/* Короткометражки */}
         </label>
       </form>
     </section>

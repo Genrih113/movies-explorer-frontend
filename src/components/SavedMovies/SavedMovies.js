@@ -9,15 +9,6 @@ function SavedMovies(props) {
     props.setIsSearchRunState(false);
   }, []);
 
-  // let movies;
-
-  // React.useEffect(() => {
-  //   movies = props.savedMovies;
-  // }, []);
-
-  // if (props.isSearchRun) {
-  //   movies = props.movies;
-  // }
 
   return(
     <>
@@ -33,6 +24,7 @@ function SavedMovies(props) {
         isSavedMoviesDirectory={true}
         movies={props.movies}
         deleteMovie={props.deleteMovie}
+        isShort={props.isShort}
       />
     </>
   );

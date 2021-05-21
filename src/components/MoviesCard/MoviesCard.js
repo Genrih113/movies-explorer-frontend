@@ -3,13 +3,6 @@ import './MoviesCard.css';
 
 function MoviesCard(props) {
 
-  //console.log(`https://api.nomoreparties.co${props.movie.image.url} ${props.movie.id}`);
-  // let imgSrc = props.isSavedMoviesDirectory
-  //   ? props.movie.image
-  //   : (props.movie.image
-  //       ? `https://api.nomoreparties.co${props.movie.image.url}`
-  //       : '');
-
   const movie = (
     props.isSavedMoviesDirectory
     ? props.movie
