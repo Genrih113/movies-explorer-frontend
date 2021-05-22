@@ -31,7 +31,7 @@ function MoviesCardSection(props) {
       {/* нужна проверка наличия результатов поиска, при не первой отрисовке */}
       {movies.length===0
       ?
-      <span class="movies-card-section__no-results">Ничего не найдено. Попробуйте поискать что-нибудь еще.</span>
+      <span className="movies-card-section__no-results">Ничего не найдено. Попробуйте поискать что-нибудь еще.</span>
       :
       <ul className="movies-card-section__list">
         {movies

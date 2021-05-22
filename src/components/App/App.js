@@ -47,22 +47,12 @@ function App() {
 
   // стейт состояния залогиненности в сервис
   const [isLogged, setIsLogged] = React.useState(Boolean(localStorage.getItem('token')));
-  // const [isLogged, setIsLogged] = React.useState(
-  //   if (Boolean(localStorage.getItem('token'))) {
-  //     console.log('отправка запроса проверки токена при установке стейта логгед');
-  //     mainApi.checkToken(localStorage.getItem('token'))
-  //     .then((res) => {return true})
-  //     .catch((err) => {return false})
-  //   }
-  // );
   function logIn() {
     setIsLogged(true);
-    // localStorage.setItem('isLogged', true);
   };
   function logOut() {
     setIsLogged(false);
     localStorage.removeItem('token');
-    // localStorage.removeItem('isLogged');
     setUserInfo({});
     history.push('/');
   };
@@ -90,17 +80,17 @@ function App() {
 
 
   // получение профиля юзера- имени и почты
-  // React.useEffect(() => {
-  //   if (!isLogged) {
-  //     return
-  //   }
-  //   console.log('запрос юзера');
-  //   mainApi.getUserInfo(localStorage.getItem('token'))
-  //     .then(res => {
-  //       setUserInfo({name: res.name, email: res.email});
-  //     })
-  //     .catch(err => console.log(err))
-  // }, [isLogged]);
+  React.useEffect(() => {
+    if (!isLogged) {
+      return
+    }
+    console.log('запрос юзера');
+    mainApi.getUserInfo(localStorage.getItem('token'))
+      .then(res => {
+        setUserInfo({name: res.name, email: res.email});
+      })
+      .catch(err => console.log(err))
+  }, [isLogged]);
 
 
 
@@ -380,8 +370,10 @@ function App() {
 
 
   return (
-    <div className="App">
-      <CurrentUserContext.Provider value={user} >
+    <CurrentUserContext.Provider value={user} >
+
+      <div className="App">
+
         <Header
           openAsideMenu = {openAsideMenu}
           isLogged = {isLogged}
@@ -458,8 +450,9 @@ function App() {
           closeAsideMenu = {closeAsideMenu}
         />
 
-      </CurrentUserContext.Provider>
-    </div>
+      </div>
+
+    </CurrentUserContext.Provider>
   );
 }
 
