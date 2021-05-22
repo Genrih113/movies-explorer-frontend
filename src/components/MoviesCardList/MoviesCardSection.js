@@ -29,7 +29,7 @@ function MoviesCardSection(props) {
   return (
     <section className="movies-card-section">
       {/* нужна проверка наличия результатов поиска, при не первой отрисовке */}
-      {movies.length===0
+      {((movies.length === 0) && props.wasSearchRun)
       ?
       <span className="movies-card-section__no-results">Ничего не найдено. Попробуйте поискать что-нибудь еще.</span>
       :
@@ -58,10 +58,10 @@ function MoviesCardSection(props) {
       </ul>
       }
       {!props.isSavedMoviesDirectory && props.numberOfDisplayedMovies < movies.length &&
-      <button onClick={props.handleForMoreButton}
-        className="movies-card-section__more-button">
-          Ещё
-      </button>
+        <button onClick={props.handleForMoreButton}
+          className="movies-card-section__more-button">
+            Ещё
+        </button>
       }
     </section>
   );

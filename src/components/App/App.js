@@ -128,9 +128,6 @@ function App() {
   function setSavedMoviesState(movies) {
     setSavedMovies(movies);
   };
-  // function clearSavedMoviesState() {
-  //   setSavedMovies({});
-  // };
 
 
 
@@ -154,9 +151,6 @@ function App() {
     console.log(movie);
     mainApi.postMovie(localStorage.getItem('token'), movie)
       .then((res) => {
-        // const newSavedMovies = savedMovies;
-        // newSavedMovies.push(movie);
-        // setSavedMoviesState(newSavedMovies);
         mainApi.getUserMovies(localStorage.getItem('token'))
           .then((res) => {
             setSavedMoviesState(res);
@@ -210,11 +204,7 @@ function App() {
 
 
   // стейт для запуска поиска фильмов из массива все фильмов
-  const [isSearchRun, setIsSearchRun] = React.useState(false);
-
-  function setIsSearchRunState(bool) {
-    setIsSearchRun(bool);
-  };
+  const [wasSearchRun, setWasSearchRun] = React.useState(false);
 
 
 
@@ -227,34 +217,7 @@ function App() {
 
 
 
-  // реализовано в handleSubmitInMovies
-  // эффект в котором выполняется поиск соответствующих критериям фильмов
-  // React.useEffect(() => {
-  //   if (!isSearchRun) {
-  //     return
-  //   }
-
-  //   let findedMovies = [];
-
-  //   findedMovies = movies.filter((movie) => {
-  //     return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
-  //   });
-
-  //   if (isShort) {
-  //     findedMovies = findedMovies.filter((movie) => {
-  //       return movie.duration <= 40;
-  //     });
-  //   }
-  //   localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
-  //   setMoviesState(findedMovies);
-  //   setIsSearchRunState(false);
-  //   setSearchStringState('');
-  //   setIsShortState(false);
-  // }, [isSearchRun]);
-
-
-
-  // функция-хендл изменения поисковой строки
+    // функция-хендл изменения поисковой строки
   function handleSearchString(evt) {
     const string = evt.target.value;
     setSearchStringState(string);
@@ -280,15 +243,10 @@ function App() {
         findedMovies = res.filter((movie) => {
           return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
         });
-        // if (isShort) {
-        //   findedMovies = findedMovies.filter((movie) => {
-        //     return movie.duration <= 40;
-        //   });
-        // }
         localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
         setMoviesState(findedMovies);
         setSearchStringState('');
-        // setIsShortState(false);
+        setWasSearchRun(true);
       })
       .catch((err) => {console.log(err)})
       .finally(() => {resetPreloaderOnState()})
@@ -298,61 +256,29 @@ function App() {
 
 
   // логика поиска (отличия) в роуте saved-movies
-   const [findedMoviesFromSaved, setFindedMoviesFromSaved] = React.useState(savedMovies);
+  const [findedMoviesFromSaved, setFindedMoviesFromSaved] = React.useState(savedMovies);
 
-   function setFindedMoviesFromSavedState(movies) {
-     setFindedMoviesFromSaved(movies);
-   };
+  function setFindedMoviesFromSavedState(movies) {
+    setFindedMoviesFromSaved(movies);
+  };
 
 
-   React.useEffect(() => {
-    setFindedMoviesFromSavedState(savedMovies);
-   }, [savedMovies]);
+  React.useEffect(() => {
+  setFindedMoviesFromSavedState(savedMovies);
+  }, [savedMovies]);
 
-  // эффект в котором выполняется поиск сохраненных фильмах
-  // React.useEffect(() => {
-  //   if (!isSearchRun) {
-  //     return
-  //   }
-
-  //   let findedMovies = [];
-
-  //   findedMovies = savedMovies.filter((movie) => {
-  //     return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
-  //   });
-
-  //   if (isShort) {
-  //     findedMovies = findedMovies.filter((movie) => {
-  //       return movie.duration <= 40;
-  //     });
-  //   }
-  //   localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
-  //   setFindedMoviesFromSavedState(findedMovies);
-  //   setIsSearchRunState(false);
-  //   setSearchStringState('');
-  //   setIsShortState(false);
-  // }, [isSearchRun]);
 
 
   // функция-хендл сабмита формы поиска в роуте saved-movies
   function handleSubmitInSavedMovies(evt) {
     evt.preventDefault();
-    // setIsSearchRunState(true);
     let findedMovies = [];
     findedMovies = savedMovies.filter((movie) => {
       return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
     });
-    // if (isShort) {
-    //   findedMovies = findedMovies.filter((movie) => {
-    //     return movie.duration <= 40;
-    //   });
-    // }
-    // localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
     setFindedMoviesFromSavedState(findedMovies);
-    // setIsSearchRunState(false);
     setSearchStringState('');
-    // setIsShortState(false);
-    // setIsSearchRunState(true);
+    setWasSearchRun(true);
   };
   // конец логики поиска в роуте saved-movies
 
@@ -394,7 +320,7 @@ function App() {
             preloaderOn={preloaderOn}
             searchString={searchString}
             isShort={isShort}
-            // isSearchRun={isSearchRun}
+            wasSearchRun={wasSearchRun}
             handleSearchString={handleSearchString}
             handleSearchCheckbox={handleSearchCheckbox}
             handleSubmit={handleSubmitInMovies}
@@ -404,13 +330,10 @@ function App() {
           <ProtectedFromUnauthRoute exact path='/saved-movies'
             component={SavedMovies}
             isLogged={isLogged}
-            // movies={isSearchRun ? findedMoviesFromSaved : savedMovies}
             movies={findedMoviesFromSaved}
             savedMovies={savedMovies}
             deleteMovie={deleteMovie}
-
-            // isSearchRun={isSearchRun}
-            setIsSearchRunState={setIsSearchRunState}
+            wasSearchRun={wasSearchRun}
             searchString={searchString}
             isShort={isShort}
             handleSearchString={handleSearchString}

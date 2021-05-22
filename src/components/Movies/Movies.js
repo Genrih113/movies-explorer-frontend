@@ -15,20 +15,16 @@ function Movies(props) {
     : 5
   );
 
-  function setNumberOfDisplayedMoviesState(number) {
-    setNumberOfDisplayedMovies(number);
-  }
-
-
-   React.useEffect(() => {
-    setNumberOfDisplayedMoviesState(
-      document.documentElement.clientWidth > 768
-      ? 12
-      : document.documentElement.clientWidth > 480
-      ? 8
-      : 5
-    );
-   }, [props.movies]);
+  // эффект для установки числа отображаемых карточек, но только после очередного поиска
+  React.useEffect(() => {
+  setNumberOfDisplayedMovies(
+    document.documentElement.clientWidth > 768
+    ? 12
+    : document.documentElement.clientWidth > 480
+    ? 8
+    : 5
+  );
+  }, [props.movies]);
 
 
   // стейт для числа добавляющихся карточек
@@ -40,25 +36,21 @@ function Movies(props) {
     : 1
   );
 
-  function setNumberOfAddedMoviesState() {
+
+  // функция-хендл для кнопки прорисовки дополнительных результатов поиска
+  function handleForMoreButton() {
+    setNumberOfDisplayedMovies(numberOfDisplayedMovies + numberOfAddedMovies);
+  };
+
+
+  window.addEventListener('resize',function() {
     setNumberOfAddedMovies(
       document.documentElement.clientWidth > 768
       ? 3
       : document.documentElement.clientWidth > 480
       ? 2
       : 1
-      );
-  };
-
-
-  // функция-хендл для кнопки прорисовки дополнительных результатов поиска
-  function handleForMoreButton() {
-    setNumberOfDisplayedMoviesState(numberOfDisplayedMovies + numberOfAddedMovies);
-  };
-
-
-  window.addEventListener('resize',function(){
-    setNumberOfAddedMoviesState(document.documentElement.clientWidth);
+    );
   });
 
 
@@ -83,8 +75,9 @@ function Movies(props) {
             addMovie={props.addMovie}
             numberOfDisplayedMovies={numberOfDisplayedMovies}
             numberOfAddedMovies={numberOfAddedMovies}
-            setNumberOfDisplayedMoviesState={setNumberOfDisplayedMoviesState}
+            setNumberOfDisplayedMovies={setNumberOfDisplayedMovies}
             handleForMoreButton={handleForMoreButton}
+            wasSearchRun={props.wasSearchRun}
           />
       }
     </>

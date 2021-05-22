@@ -4,12 +4,6 @@ import MovieSearch from '../MovieSearch/MovieSearch';
 import MoviesCardSection from '../MoviesCardList/MoviesCardSection';
 
 function SavedMovies(props) {
-
-  React.useEffect(() => {
-    props.setIsSearchRunState(false);
-  }, []);
-
-
   return(
     <>
       <MovieSearch
@@ -25,6 +19,7 @@ function SavedMovies(props) {
         movies={props.movies}
         deleteMovie={props.deleteMovie}
         isShort={props.isShort}
+        wasSearchRun={props.wasSearchRun}
       />
     </>
   );
