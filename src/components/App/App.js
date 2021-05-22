@@ -1,6 +1,5 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
-import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory} from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -26,10 +25,6 @@ function App() {
 
   // стейт с информацией о пользователе
   const [user, setUser] = React.useState({});
-  function setUserInfo(userInfo) {
-    setUser(userInfo);
-  };
-
 
 
   // регистрация в сервисе
@@ -44,7 +39,6 @@ function App() {
   };
 
 
-
   // стейт состояния залогиненности в сервис
   const [isLogged, setIsLogged] = React.useState(Boolean(localStorage.getItem('token')));
   function logIn() {
@@ -53,10 +47,10 @@ function App() {
   function logOut() {
     setIsLogged(false);
     localStorage.removeItem('token');
-    setUserInfo({});
+    localStorage.removeItem('lastSearchedMovies');
+    setUser({});
     history.push('/');
   };
-
 
 
   // проверка валидности токена при его наличии и установка текущего пользователя
@@ -66,7 +60,7 @@ function App() {
       mainApi.checkToken(localStorage.getItem('token'))
       .then((res) => {
         if (res.email) {
-          setUserInfo({name: res.name, email: res.email});
+          setUser({name: res.name, email: res.email});
           logIn();
         }
       })
@@ -87,11 +81,10 @@ function App() {
     console.log('запрос юзера');
     mainApi.getUserInfo(localStorage.getItem('token'))
       .then(res => {
-        setUserInfo({name: res.name, email: res.email});
+        setUser({name: res.name, email: res.email});
       })
       .catch(err => console.log(err))
   }, [isLogged]);
-
 
 
   // вход в сервис
@@ -108,13 +101,12 @@ function App() {
   };
 
 
-
   // изменение данных юзера
   function patchUser({name, email}) {
     mainApi.patchUserInfo(localStorage.getItem('token'), {name, email})
       .then((res) => {
         if (res.email) {
-          setUserInfo({name: res.name, email: res.email});
+          setUser({name: res.name, email: res.email});
         }
       })
       .catch((err) => {
@@ -125,10 +117,6 @@ function App() {
 
   // стейт с фильмами пользователя
   const [savedMovies, setSavedMovies] = React.useState([]);
-  function setSavedMoviesState(movies) {
-    setSavedMovies(movies);
-  };
-
 
 
   // запрос карточек с фильмами пользователя
@@ -139,11 +127,10 @@ function App() {
     console.log('отправка запроса сохраненных фильмов');
     mainApi.getUserMovies(localStorage.getItem('token'))
       .then((res) => {
-        setSavedMoviesState(res);
+        setSavedMovies(res);
       })
       .catch((err) => {console.log(err);})
   }, [isLogged])
-
 
 
   // добавление фильма к числу сохраненных фильмов пользователя
@@ -153,12 +140,11 @@ function App() {
       .then((res) => {
         mainApi.getUserMovies(localStorage.getItem('token'))
           .then((res) => {
-            setSavedMoviesState(res);
+            setSavedMovies(res);
           })
       })
       .catch((err) => {console.log(err)})
   };
-
 
 
   // удаление фильма из числа сохраненных фильмов пользователя
@@ -166,11 +152,10 @@ function App() {
     mainApi.deleteMovie(localStorage.getItem('token'), movie._id)
       .then((res) => {
         const newSavedMovies = savedMovies.filter((m) => {return (m._id !== movie._id)});
-        setSavedMoviesState(newSavedMovies);
+        setSavedMovies(newSavedMovies);
       })
       .catch((err) => {console.log(err);})
   }
-
 
 
   // эта часть логики перенесена из Movies для переиспользования в Saved-Movies
@@ -190,37 +175,23 @@ function App() {
   // стейт значения поисковой строки
   const [searchString, setSearchString] = React.useState('');
 
-  function setSearchStringState(string) {
-    setSearchString(string);
-  };
-
 
   //стейт состояния чекбокса короткометражек
   const [isShort, setIsShort] = React.useState(false);
-
-  function setIsShortState(bool) {
-    setIsShort(bool);
-  };
 
 
   // стейт для запуска поиска фильмов из массива все фильмов
   const [wasSearchRun, setWasSearchRun] = React.useState(false);
 
 
-
   // стейт со всеми фильмами из BeatFilmsApi
   const [movies, setMovies] = React.useState((JSON.parse(localStorage.getItem('lastSearchedMovies')) || []));
 
-  function setMoviesState(allMovies) {
-    setMovies(allMovies);
-  }
 
-
-
-    // функция-хендл изменения поисковой строки
+  // функция-хендл изменения поисковой строки
   function handleSearchString(evt) {
     const string = evt.target.value;
-    setSearchStringState(string);
+    setSearchString(string);
   };
 
 
@@ -228,7 +199,7 @@ function App() {
   function handleSearchCheckbox(evt) {
     const checkbox = evt.target.checked;
     console.log(checkbox);
-    setIsShortState(checkbox);
+    setIsShort(checkbox);
   };
 
 
@@ -244,8 +215,8 @@ function App() {
           return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
         });
         localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
-        setMoviesState(findedMovies);
-        setSearchStringState('');
+        setMovies(findedMovies);
+        setSearchString('');
         setWasSearchRun(true);
       })
       .catch((err) => {console.log(err)})
@@ -258,15 +229,10 @@ function App() {
   // логика поиска (отличия) в роуте saved-movies
   const [findedMoviesFromSaved, setFindedMoviesFromSaved] = React.useState(savedMovies);
 
-  function setFindedMoviesFromSavedState(movies) {
-    setFindedMoviesFromSaved(movies);
-  };
-
 
   React.useEffect(() => {
-  setFindedMoviesFromSavedState(savedMovies);
+  setFindedMoviesFromSaved(savedMovies);
   }, [savedMovies]);
-
 
 
   // функция-хендл сабмита формы поиска в роуте saved-movies
@@ -276,8 +242,8 @@ function App() {
     findedMovies = savedMovies.filter((movie) => {
       return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
     });
-    setFindedMoviesFromSavedState(findedMovies);
-    setSearchStringState('');
+    setFindedMoviesFromSaved(findedMovies);
+    setSearchString('');
     setWasSearchRun(true);
   };
   // конец логики поиска в роуте saved-movies
