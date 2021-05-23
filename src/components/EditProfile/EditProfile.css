@@ -79,6 +79,7 @@
   line-height: 1.2;
   color: #ee3465;
   border-bottom: 1px solid #424242;
+  text-align: right;
 }
 
 .edit-profile__input-error-message:last-of-type {
@@ -102,7 +103,7 @@
   color: #fff;
 }
 
-.edit-profile__submit-button {
+/* .edit-profile__submit-button {
   background-color: inherit;
   border: none;
   cursor: pointer;
@@ -113,7 +114,7 @@
   line-height: 1.2;
   font-weight: 400;
   color: #fff;
-}
+} */
 
 .edit-profile__logout-button {
   margin-top: 16px;

@@ -67,6 +67,14 @@
   color: #fff;
 }
 
+.login__input_invalid {
+  border: 1px solid #ee3465;
+}
+
+/* .login__input:invalid {
+  border: 1px solid yellow;
+} */
+
 .login__input-error-message {
   font-size: 10px;
   font-weight: normal;

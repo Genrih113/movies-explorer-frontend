@@ -21,30 +21,34 @@ function Registrate(props) {
         <img src={logo} className="registrate__logo-img" alt="логотип"></img>
       </Link>
       <span className="registrate__greeting-text">Добро пожаловать!</span>
-      <form className="registrate__form" name="signupForm" onSubmit={handleSubmit}>
+      <form className="registrate__form" name="signupForm" onSubmit={handleSubmit} noValidate>
         <div className="registrate__input-zone">
           <label className="registrate__input-label">Имя</label>
           <input onChange={handleInputChange} value={values.userName}
-            className="registrate__input" name="userName" type="text" required>
+            className={`registrate__input ${errors.userName && 'registrate__input_invalid'}`}
+            name="userName" type="text" minLength="2" maxLength="30" required>
           </input>
           <span className="registrate__input-error-message">{errors.userName}</span>
         </div>
         <div className="registrate__input-zone">
           <label className="registrate__input-label">E-mail</label>
           <input onChange={handleInputChange} value={values.userEmail}
-            className="registrate__input" name="userEmail" type="email" required>
+            className={`registrate__input ${errors.userEmail && 'registrate__input_invalid'}`}
+            name="userEmail" type="email" required>
           </input>
-          <span className="registrate__input-error-message">{errors.userEmail && 'введите корректную почту, пожалуйста'}</span>
+          <span className="registrate__input-error-message">{errors.userEmail}</span>
         </div>
         <div className="registrate__input-zone">
           <label className="registrate__input-label">Пароль</label>
           <input onChange={handleInputChange} value={values.userPassword}
-            className="registrate__input" name="userPassword" type="password" required>
+            className={`registrate__input ${errors.userPassword && 'registrate__input_invalid'}`}
+            name="userPassword" type="password" minLength="4" required>
           </input>
           <span className="registrate__input-error-message">{errors.userPassword}</span>
         </div>
         <button disabled={!isFormValid}
-          className={`registrate__submit-button ${!isFormValid && 'registrate__submit-button_disable'}`} type="submit" aria-label="Зарегистрироваться">
+          className={`registrate__submit-button ${!isFormValid && 'registrate__submit-button_disable'}`}
+          type="submit" aria-label="Зарегистрироваться">
             Зарегистрироваться
         </button>
       </form>

@@ -5,7 +5,7 @@ import {useFormWithValidation} from '../../hooks/useFormWithValidation';
 import logo from '../../images/logo.svg';
 
 function Login(props) {
-  // props.hideHeaderAndFooter();
+  // const regex = '[^@\s]+@[^@\s]+\.[^@\s]+';
 
   const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
 
@@ -21,23 +21,26 @@ function Login(props) {
         <img src={logo} className="login__logo-img" alt="логотип"></img>
       </Link>
       <span className="login__greeting-text">Рады видеть!</span>
-      <form className="login__form" name="signinForm" onSubmit={handleSubmit}>
+      <form className="login__form" name="signinForm" onSubmit={handleSubmit} noValidate>
         <div className="login__input-zone">
           <label className="login__input-label">E-mail</label>
           <input onChange={handleInputChange} value={values.userEmail}
-            className="login__input" name="userEmail" type="email" required>
+            className={`login__input ${errors.userEmail && 'login__input_invalid'}`}
+            name="userEmail" type="email" required>
           </input>
-          <span className="login__input-error-message">{errors.userEmail && 'введите корректную почту, пожалуйста'}</span>
+          <span className="login__input-error-message">{errors.userEmail}</span>
         </div>
         <div className="login__input-zone">
           <label className="login__input-label">Пароль</label>
           <input onChange={handleInputChange} value={values.userPassword}
-            className="login__input" name="userPassword" type="password" required>
+            className={`login__input ${errors.userPassword && 'login__input_invalid'}`}
+            name="userPassword" type="password" minLength="4" required>
           </input>
           <span className="login__input-error-message">{errors.userPassword}</span>
         </div>
         <button disabled={!isFormValid}
-          className={`login__submit-button ${!isFormValid && 'login__submit-button_disable'}`} type="submit" aria-label="Войти">
+          className={`login__submit-button ${!isFormValid && 'login__submit-button_disable'}`}
+          type="submit" aria-label="Войти">
             Войти
         </button>
       </form>
