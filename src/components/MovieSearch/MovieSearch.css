@@ -35,7 +35,7 @@
   background-color: inherit;
   border-style: none;
   vertical-align: middle;
-  width: calc(100% - 86px);
+  width: calc(100% - 88px);
   height: 34px;
   font-size: 28px;
   color: #fff;
@@ -50,7 +50,7 @@
   background-color: inherit;
   border-style: none;
   vertical-align: middle;
-  margin: 0;
+  margin: 0 0 0 4px;
   padding: 0;
   cursor: pointer;
 }

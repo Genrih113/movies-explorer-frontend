@@ -78,6 +78,8 @@ function Movies(props) {
             setNumberOfDisplayedMovies={setNumberOfDisplayedMovies}
             handleForMoreButton={handleForMoreButton}
             wasSearchRun={props.wasSearchRun}
+            isMoviesRequestErrored={props.isMoviesRequestErrored}
+            isSavedMoviesRequestErrored={props.isSavedMoviesRequestErrored}
           />
       }
     </>

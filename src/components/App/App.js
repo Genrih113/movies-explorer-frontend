@@ -27,18 +27,6 @@ function App() {
   const [user, setUser] = React.useState({});
 
 
-  // регистрация в сервисе
-  function signUp(name, email, password) {
-    mainApi.signup(name, email, password)
-      .then((res) => {
-        console.log('регистрация удалась');
-      })
-      .catch((err) => {
-        console.log('регистрация не удалась');
-      })
-  };
-
-
   // стейт состояния залогиненности в сервис
   const [isLogged, setIsLogged] = React.useState(Boolean(localStorage.getItem('token')));
   function logIn() {
@@ -66,10 +54,11 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        logOut();
+        // logOut();
       })
     }
   }, []);
+
   console.log(user);
 
 
@@ -85,6 +74,19 @@ function App() {
       })
       .catch(err => console.log(err))
   }, [isLogged]);
+
+
+  // регистрация в сервисе
+  function signUp(name, email, password) {
+    mainApi.signup(name, email, password)
+      .then((res) => {
+        console.log('регистрация удалась');
+        history.push('/signin');
+      })
+      .catch((err) => {
+        console.log('регистрация не удалась');
+      })
+  };
 
 
   // вход в сервис
@@ -118,19 +120,36 @@ function App() {
   // стейт с фильмами пользователя
   const [savedMovies, setSavedMovies] = React.useState([]);
 
+  // стейт неудачного соединения с API
+  const [isSavedMoviesRequestErrored, setIsSavedMoviesRequestErrored] = React.useState(false);
+
 
   // запрос карточек с фильмами пользователя
+  function requestSavedMovies(token) {
+    mainApi.getUserMovies(token)
+      .then((res) => {
+        setSavedMovies(res);
+        setIsSavedMoviesRequestErrored(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsSavedMoviesRequestErrored(true);
+      })
+  }
+
   React.useEffect(() => {
     if (!isLogged) {
       return;
     }
     console.log('отправка запроса сохраненных фильмов');
-    mainApi.getUserMovies(localStorage.getItem('token'))
-      .then((res) => {
-        setSavedMovies(res);
-      })
-      .catch((err) => {console.log(err);})
+    requestSavedMovies(localStorage.getItem('token'));
+    // mainApi.getUserMovies(localStorage.getItem('token'))
+    //   .then((res) => {
+    //     setSavedMovies(res);
+    //   })
+    //   .catch((err) => {console.log(err);})
   }, [isLogged])
+
 
 
   // добавление фильма к числу сохраненных фильмов пользователя
@@ -158,18 +177,8 @@ function App() {
   }
 
 
-  // эта часть логики перенесена из Movies для переиспользования в Saved-Movies
-
   // стейт управления отображением прелоадера
   const [preloaderOn, setPreloaderOn] = React.useState(false);
-
-  function setPreloaderOnState() {
-    setPreloaderOn(true);
-  };
-
-  function resetPreloaderOnState() {
-    setPreloaderOn(false);
-  };
 
 
   // стейт значения поисковой строки
@@ -188,6 +197,10 @@ function App() {
   const [movies, setMovies] = React.useState((JSON.parse(localStorage.getItem('lastSearchedMovies')) || []));
 
 
+  // стейт состояния запроса фильмов
+  const [isMoviesRequestErrored, setIsMoviesRequestErrored] = React.useState(false);
+
+
   // функция-хендл изменения поисковой строки
   function handleSearchString(evt) {
     const string = evt.target.value;
@@ -198,7 +211,7 @@ function App() {
   // функция-хендл отметки чекбокса формы поиска
   function handleSearchCheckbox(evt) {
     const checkbox = evt.target.checked;
-    console.log(checkbox);
+  //  console.log(checkbox);
     setIsShort(checkbox);
   };
 
@@ -207,7 +220,7 @@ function App() {
   function handleSubmitInMovies(evt) {
     evt.preventDefault();
     console.log('отправка запроса всех фильмов');
-    setPreloaderOnState();
+    setPreloaderOn(true);
     movieApi.getMovies()
       .then((res) => {
         let findedMovies = [];
@@ -218,9 +231,13 @@ function App() {
         setMovies(findedMovies);
         setSearchString('');
         setWasSearchRun(true);
+        setIsMoviesRequestErrored(false);
       })
-      .catch((err) => {console.log(err)})
-      .finally(() => {resetPreloaderOnState()})
+      .catch((err) => {
+        console.log(err);
+        setIsMoviesRequestErrored(true);
+      })
+      .finally(() => {setPreloaderOn(false)})
   };
   // конец части логики из Movies
 
@@ -231,7 +248,7 @@ function App() {
 
 
   React.useEffect(() => {
-  setFindedMoviesFromSaved(savedMovies);
+    setFindedMoviesFromSaved(savedMovies);
   }, [savedMovies]);
 
 
@@ -291,6 +308,8 @@ function App() {
             handleSearchCheckbox={handleSearchCheckbox}
             handleSubmit={handleSubmitInMovies}
             movies={movies}
+            isMoviesRequestErrored={isMoviesRequestErrored}
+            isSavedMoviesRequestErrored={isSavedMoviesRequestErrored}
           />
 
           <ProtectedFromUnauthRoute exact path='/saved-movies'
@@ -305,6 +324,8 @@ function App() {
             handleSearchString={handleSearchString}
             handleSearchCheckbox={handleSearchCheckbox}
             handleSubmit={handleSubmitInSavedMovies}
+            haveSaves={savedMovies.length}
+            isSavedMoviesRequestErrored={isSavedMoviesRequestErrored}
           />
 
           <ProtectedFromUnauthRoute exact path='/profile'

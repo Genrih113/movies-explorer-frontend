@@ -20,6 +20,8 @@ function SavedMovies(props) {
         deleteMovie={props.deleteMovie}
         isShort={props.isShort}
         wasSearchRun={props.wasSearchRun}
+        haveSaves={props.haveSaves}
+        isSavedMoviesRequestErrored={props.isSavedMoviesRequestErrored}
       />
     </>
   );
