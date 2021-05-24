@@ -20,9 +20,12 @@
 .movie-search__form {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .movie-search__fieldset {
+  position: relative;
+  width: 100%;
   padding: 12px 0;
   margin: 0 0 32px;
   border: none;
@@ -39,6 +42,16 @@
   height: 34px;
   font-size: 28px;
   color: #fff;
+}
+
+.movie-search__input-error-message {
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 1.2;
+  color: #ee3465;
 }
 
 .movie-search__submit {

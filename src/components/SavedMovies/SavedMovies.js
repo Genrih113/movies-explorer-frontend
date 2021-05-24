@@ -12,6 +12,7 @@ function SavedMovies(props) {
         handleSearchString={props.handleSearchString}
         handleSearchCheckbox={props.handleSearchCheckbox}
         handleSubmit={props.handleSubmit}
+        setIsSearchTryToStart={props.setIsSearchTryToStart}
       />
 
       <MoviesCardSection

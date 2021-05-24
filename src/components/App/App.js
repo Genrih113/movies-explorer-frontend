@@ -228,10 +228,15 @@ function App() {
     setIsShort(checkbox);
   };
 
+  const [isSearchTryToStart, setIsSearchTryToStart] = React.useState(false);
+
 
   // функция-хендл сабмита формы поиска
   function handleSubmitInMovies(evt) {
     evt.preventDefault();
+    if (searchString === '') {
+      return setIsSearchTryToStart(true);
+    }
     console.log('отправка запроса всех фильмов');
     setPreloaderOn(true);
     movieApi.getMovies()
@@ -250,7 +255,10 @@ function App() {
         console.log(err);
         setIsMoviesRequestErrored(true);
       })
-      .finally(() => {setPreloaderOn(false)})
+      .finally(() => {
+        setPreloaderOn(false);
+        setIsSearchTryToStart(false);
+      })
   };
   // конец части логики из Movies
 
@@ -326,6 +334,8 @@ function App() {
             movies={movies}
             isMoviesRequestErrored={isMoviesRequestErrored}
             isSavedMoviesRequestErrored={isSavedMoviesRequestErrored}
+            isSearchTryToStart={isSearchTryToStart}
+            setIsSearchTryToStart={setIsSearchTryToStart}
           />
 
           <ProtectedFromUnauthRoute exact path='/saved-movies'
@@ -342,6 +352,7 @@ function App() {
             handleSubmit={handleSubmitInSavedMovies}
             haveSaves={savedMovies.length}
             isSavedMoviesRequestErrored={isSavedMoviesRequestErrored}
+            setIsSearchTryToStart={setIsSearchTryToStart}
           />
 
           <ProtectedFromUnauthRoute exact path='/profile'

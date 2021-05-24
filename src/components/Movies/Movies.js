@@ -62,6 +62,8 @@ function Movies(props) {
         handleSearchString={props.handleSearchString}
         handleSearchCheckbox={props.handleSearchCheckbox}
         handleSubmit={props.handleSubmit}
+        isSearchTryToStart={props.isSearchTryToStart}
+        setIsSearchTryToStart={props.setIsSearchTryToStart}
       />
 
       {props.preloaderOn
