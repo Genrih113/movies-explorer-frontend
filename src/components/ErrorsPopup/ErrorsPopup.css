@@ -1,0 +1,45 @@
+.errors-popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  background-color: rgba();
+  background-color: rgba(0,0,0,.3);
+  z-index: 20;
+}
+
+.errors-popup__infoblock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  padding: 20px;
+  width: 70%;
+  max-width: 400px;
+  background-color: #000;
+  border: 1px solid #3ddc84;
+  border-radius: 10px;
+}
+
+.errors-popup__message {
+  margin: 20px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.2;
+  color: #fff;
+  text-align: center;
+}
+
+.errors-popup__button {
+  background-color: #3ddc84;
+  border-radius: 3px;
+  border-style: none;
+  width: 76px;
+  height: 32px;
+  font-size: 12px;
+  line-height: 1.33;
+  color: #000;
+  cursor: pointer;
+}

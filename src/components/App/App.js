@@ -16,6 +16,7 @@ import movieApi from '../../utils/MovieApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import ProtectedFromUnauthRoute from '../ProtectedFromUnauthRoute/ProtectedFromUnauthRoute';
 import ProtectedFromAuthRoute from '../ProtectedFromAuthRoute/ProtectedFromAuthRoute';
+import ErrorsPopup from '../ErrorsPopup/ErrorsPopup';
 
 
 function App() {
@@ -72,7 +73,10 @@ function App() {
       .then(res => {
         setUser({name: res.name, email: res.email});
       })
-      .catch(err => console.log(err))
+      .catch((err) => {
+        console.log(err);
+        setMessageForErrorsPopup('Не удалось получить данные пользователя. Попробуйте обновить страницу.');
+      })
   }, [isLogged]);
 
 
@@ -85,6 +89,7 @@ function App() {
       })
       .catch((err) => {
         console.log('регистрация не удалась');
+        setMessageForErrorsPopup('Не удалось зарегистрироваться.');
       })
   };
 
@@ -99,6 +104,7 @@ function App() {
     })
     .catch((err) => {
       console.log(err);
+      setMessageForErrorsPopup('Не удалось выполнить вход.');
     })
   };
 
@@ -113,6 +119,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setMessageForErrorsPopup('Не удалось обновить данные пользователя. Попробуйте снова чуть позднее.');
       })
   }
 
@@ -162,7 +169,10 @@ function App() {
             setSavedMovies(res);
           })
       })
-      .catch((err) => {console.log(err)})
+      .catch((err) => {
+        console.log(err);
+        setMessageForErrorsPopup('Не удалось добавить в избранное.');
+      })
   };
 
 
@@ -173,7 +183,10 @@ function App() {
         const newSavedMovies = savedMovies.filter((m) => {return (m._id !== movie._id)});
         setSavedMovies(newSavedMovies);
       })
-      .catch((err) => {console.log(err);})
+      .catch((err) => {
+        console.log(err);
+        setMessageForErrorsPopup('Не удалось удалить фильм из избранного.');
+      })
   }
 
 
@@ -276,6 +289,9 @@ function App() {
     setIsAsideMenuOpen(true);
   };
 
+  // управление попапом ошибок
+  const [messageForErrorsPopup, setMessageForErrorsPopup] = React.useState('');
+
 
 
   return (
@@ -359,6 +375,14 @@ function App() {
           isAsideMenuOpen = {isAsideMenuOpen}
           closeAsideMenu = {closeAsideMenu}
         />
+
+        {
+          messageForErrorsPopup &&
+          <ErrorsPopup
+            setMessageForErrorsPopup={setMessageForErrorsPopup}
+            messageForErrorsPopup={messageForErrorsPopup}
+          />
+        }
 
       </div>
 
