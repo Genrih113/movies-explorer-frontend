@@ -1,3 +1,5 @@
+import posterNotFound from '../images/poster-not-found.jpeg';
+
 export default function NormalizeMovie(unNormalMovie, savedMovieId, baseUrlString) {
   const normalMovie = {
     country: (
@@ -23,7 +25,7 @@ export default function NormalizeMovie(unNormalMovie, savedMovieId, baseUrlStrin
     image: (
       (unNormalMovie.image && unNormalMovie.image.url)
       ? `${baseUrlString}${unNormalMovie.image.url}`
-      : 'undefined'
+      : posterNotFound
     ),
     movieId: (
       unNormalMovie.id
