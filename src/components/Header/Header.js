@@ -13,7 +13,6 @@ function Header(props) {
   return (
     (pathname === '/' || pathname === '/movies' || pathname === '/saved-movies' || pathname === '/profile')  &&
     <header className={`header ${(pathname === '/')&&'header_on-main'}`}>
-      {/* <div className="header__logo"></div> */}
       <Link to="/">
         <img src={logo} className="header__logo" alt="логотип"></img>
       </Link>

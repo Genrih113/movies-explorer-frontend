@@ -45,7 +45,6 @@ function App() {
   // проверка валидности токена при его наличии и установка текущего пользователя
   React.useEffect(() => {
     if (Boolean(localStorage.getItem('token'))) {
-      console.log('отправка запроса проверки токена (и получение юзера)');
       mainApi.checkToken(localStorage.getItem('token'))
       .then((res) => {
         if (res.email) {
@@ -60,22 +59,21 @@ function App() {
     }
   }, []);
 
-  console.log(user);
-
 
   // получение профиля юзера- имени и почты
   React.useEffect(() => {
     if (!isLogged) {
       return
     }
-    console.log('запрос юзера');
     mainApi.getUserInfo(localStorage.getItem('token'))
       .then(res => {
         setUser({name: res.name, email: res.email});
       })
       .catch((err) => {
         console.log(err);
-        setMessageForErrorsPopup('Не удалось получить данные пользователя. Попробуйте обновить страницу.');
+        setMessageForErrorsPopup(
+          'Не удалось получить данные пользователя. Попробуйте обновить страницу.'
+        );
       })
   }, [isLogged]);
 
@@ -88,7 +86,7 @@ function App() {
         history.push('/signin');
       })
       .catch((err) => {
-        console.log('регистрация не удалась');
+        console.log(err);
         setMessageForErrorsPopup('Не удалось зарегистрироваться.');
       })
   };
@@ -119,7 +117,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        setMessageForErrorsPopup('Не удалось обновить данные пользователя. Попробуйте снова чуть позднее.');
+        setMessageForErrorsPopup(
+          'Не удалось обновить данные пользователя. Попробуйте снова чуть позднее.'
+        );
       })
   }
 
@@ -148,20 +148,13 @@ function App() {
     if (!isLogged) {
       return;
     }
-    console.log('отправка запроса сохраненных фильмов');
     requestSavedMovies(localStorage.getItem('token'));
-    // mainApi.getUserMovies(localStorage.getItem('token'))
-    //   .then((res) => {
-    //     setSavedMovies(res);
-    //   })
-    //   .catch((err) => {console.log(err);})
   }, [isLogged])
 
 
 
   // добавление фильма к числу сохраненных фильмов пользователя
   function addMovie(movie) {
-    console.log(movie);
     mainApi.postMovie(localStorage.getItem('token'), movie)
       .then((res) => {
         mainApi.getUserMovies(localStorage.getItem('token'))
@@ -224,7 +217,6 @@ function App() {
   // функция-хендл отметки чекбокса формы поиска
   function handleSearchCheckbox(evt) {
     const checkbox = evt.target.checked;
-  //  console.log(checkbox);
     setIsShort(checkbox);
   };
 
@@ -237,7 +229,6 @@ function App() {
     if (searchString === '') {
       return setIsSearchTryToStart(true);
     }
-    console.log('отправка запроса всех фильмов');
     setPreloaderOn(true);
     movieApi.getMovies()
       .then((res) => {

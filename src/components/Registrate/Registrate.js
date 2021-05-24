@@ -16,7 +16,6 @@ function Registrate(props) {
 
   return(
     <section className="registrate">
-      {/* <div className="registrate__logo"></div> */}
       <Link to="/" className="registrate__logo-link">
         <img src={logo} className="registrate__logo-img" alt="логотип"></img>
       </Link>

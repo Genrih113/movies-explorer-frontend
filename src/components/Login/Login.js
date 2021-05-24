@@ -5,7 +5,6 @@ import {useFormWithValidation} from '../../hooks/useFormWithValidation';
 import logo from '../../images/logo.svg';
 
 function Login(props) {
-  // const regex = '[^@\s]+@[^@\s]+\.[^@\s]+';
 
   const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
 
@@ -16,7 +15,6 @@ function Login(props) {
 
   return(
     <section className="login">
-      {/* <div className="login__logo"></div> */}
       <Link to="/" className="login__logo-link">
         <img src={logo} className="login__logo-img" alt="логотип"></img>
       </Link>
