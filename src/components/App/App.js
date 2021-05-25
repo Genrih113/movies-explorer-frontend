@@ -233,9 +233,19 @@ function App() {
     movieApi.getMovies()
       .then((res) => {
         let findedMovies = [];
-        findedMovies = res.filter((movie) => {
-          return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
-        });
+        // findedMovies = res.filter((movie) => {
+        //   return movie.nameRU.toLowerCase().includes(searchString.toString().toLowerCase());
+        // });
+        for (let i=0; i < res.length; i++) {
+          if (res[i].nameRU) {
+            if (res[i].nameRU.toLowerCase().includes(searchString.toString().toLowerCase())) {
+            findedMovies.push(res[i]);
+          } else if (res[i].nameEN) {
+              if (res[i].nameEN.toLowerCase().includes(searchString.toString().toLowerCase())) {
+              findedMovies.push(res[i]);
+            }}
+          }
+        }
         localStorage.setItem('lastSearchedMovies', JSON.stringify(findedMovies));
         setMovies(findedMovies);
         setSearchString('');
