@@ -78,20 +78,6 @@ function App() {
   }, [isLogged]);
 
 
-  // регистрация в сервисе
-  function signUp(name, email, password) {
-    mainApi.signup(name, email, password)
-      .then((res) => {
-        console.log('регистрация удалась');
-        history.push('/signin');
-      })
-      .catch((err) => {
-        console.log(err);
-        setMessageForErrorsPopup('Не удалось зарегистрироваться.');
-      })
-  };
-
-
   // вход в сервис
   function signIn(email, password) {
     mainApi.signin(email, password)
@@ -107,12 +93,30 @@ function App() {
   };
 
 
+  // регистрация в сервисе
+  function signUp(name, email, password) {
+    mainApi.signup(name, email, password)
+      .then((res) => {
+        console.log('регистрация удалась');
+        // history.push('/signin');
+        signIn(email, password);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessageForErrorsPopup('Не удалось зарегистрироваться.');
+      })
+  };
+
+
   // изменение данных юзера
   function patchUser({name, email}) {
     mainApi.patchUserInfo(localStorage.getItem('token'), {name, email})
       .then((res) => {
         if (res.email) {
           setUser({name: res.name, email: res.email});
+          setMessageForErrorsPopup(
+            'Данные пользователя обновлены.'
+          );
         }
       })
       .catch((err) => {

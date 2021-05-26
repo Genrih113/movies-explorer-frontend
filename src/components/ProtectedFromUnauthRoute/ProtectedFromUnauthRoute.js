@@ -7,7 +7,7 @@ const ProtectedFromUnauthRoute = ({ component: Component, ...props }) => {
       {
         props.isLogged
         ? <Component {...props} />
-        : <Redirect to="/signin" />
+        : <Redirect to="/" />
       }
     </Route>
   );

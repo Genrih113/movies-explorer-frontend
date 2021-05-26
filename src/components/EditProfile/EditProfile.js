@@ -9,6 +9,7 @@ function EditProfile(props) {
 
   const user = React.useContext(CurrentUserContext);
 
+  const profileFormRef = React.useRef();
 
   const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
 
@@ -24,7 +25,7 @@ function EditProfile(props) {
   return(
     <section className="edit-profile">
       <span className="edit-profile__greeting">Привет, {user.name}!</span>
-      <form onSubmit={handleSubmit} className="edit-profile__form" name="userProfileEditForm" noValidate>
+      <form onSubmit={handleSubmit} ref={profileFormRef} className="edit-profile__form" name="userProfileEditForm" noValidate>
         <div className="edit-profile__input-zone">
           <label className="edit-profile__input-label">Имя</label>
           <input onChange={handleInputChange} value={values.userName}
