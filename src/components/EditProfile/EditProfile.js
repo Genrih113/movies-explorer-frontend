@@ -11,7 +11,7 @@ function EditProfile(props) {
 
   const profileFormRef = React.useRef();
 
-  const {values, errors, isFormValid, handleInputChange} = useFormWithValidation();
+  const {values, errors, isFormValid, handleInputChange, resetStates} = useFormWithValidation();
 
 
   function handleSubmit(e) {
@@ -20,6 +20,8 @@ function EditProfile(props) {
       return;
     }
     props.patchUser({name: values.userName, email: values.userEmail});
+    resetStates();
+    profileFormRef.current.reset();
   }
 
   return(
