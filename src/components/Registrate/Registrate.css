@@ -67,6 +67,10 @@
   color: #fff;
 }
 
+.registrate__input_invalid {
+  border: 1px solid #ee3465;
+}
+
 .registrate__input-error-message {
   font-size: 10px;
   font-weight: normal;
@@ -87,6 +91,11 @@
   line-height: 1.2;
   color: #fff;
   cursor: pointer;
+}
+
+.registrate__submit-button_disable {
+  background-color: #2f2f2f;
+  color: #8b8b8b;
 }
 
 .registrate__signin-invite {
